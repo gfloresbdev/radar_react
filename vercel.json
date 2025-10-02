@@ -12,10 +12,12 @@
     {
       "src": "/api/(.*)",
       "dest": "api/main.py"
-    },
+    }
+  ],
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "source": "/((?!api/.*).*)",
+      "destination": "/index.html"
     }
   ]
 }
