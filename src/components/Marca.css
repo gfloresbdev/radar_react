@@ -1,0 +1,73 @@
+.marca-main-container {
+  padding: 2rem;
+  max-width: 1280px;
+  margin: 2rem auto;
+  background: var(--color-navbar-bg);
+  border-radius: 12px;
+  color: var(--color-navbar-link);
+}
+
+.marca-row {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.marca-detalle {
+  flex: 1 1 350px;
+  min-width: 300px;
+  background: var(--color-buscador-detalle-bg);
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.marca-analisis {
+  flex: 1 1 350px;
+  min-width: 300px;
+  background: var(--color-buscador-detalle-bg);
+  border-radius: 10px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.marca-analisis-title {
+  margin-bottom: 1rem;
+}
+
+.marca-analisis-btns {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.marca-analisis-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+  background: var(--color-navbar-bg);
+  color: var(--color-navbar-link);
+}
+
+.marca-analisis-btn.selected {
+  background: var(--color-navbar-link-hover);
+  color: var(--color-navbar-bg);
+}
+
+.marca-analisis-content {
+  background: var(--color-navbar-bg);
+  border-radius: 8px;
+  padding: 1rem;
+  min-height: 80px;
+  color: var(--color-navbar-link);
+}
+
+.marca-historial {
+  background: var(--color-buscador-detalle-bg);
+  border-radius: 10px;
+  padding: 1.5rem;
+}

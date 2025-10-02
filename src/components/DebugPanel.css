@@ -1,0 +1,29 @@
+.debug-panel {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  background: var(--color-navbar-bg, #181c24);
+  color: var(--color-text-secondary-dark, #bebebe);
+  border-radius: 10px;
+  box-shadow: 0 2px 12px #000a;
+  padding: 1rem 1.5rem;
+  z-index: 9999;
+  min-width: 180px;
+  font-family: 'Roboto Mono', monospace;
+  opacity: 0.92;
+}
+
+.debug-panel-title {
+  font-size: 0.95em;
+  font-weight: 600;
+  margin-bottom: 0.7em;
+  color: var(--color-text-secondary-dark, #bebebe);
+  letter-spacing: 1px;
+}
+
+.debug-panel-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  font-size: 1em;
+}

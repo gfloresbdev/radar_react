@@ -1,0 +1,95 @@
+# === DEPENDENCIAS ===
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# === BUILD OUTPUTS ===
+dist/
+build/
+.next/
+out/
+.vercel/
+
+# === ENVIRONMENT VARIABLES ===
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.production
+
+# === BASE DE DATOS (opcional) ===
+# Descomenta las siguientes líneas si NO quieres subir las bases de datos
+# *.db
+# *.sqlite
+# *.sqlite3
+# marcas.db
+# usuarios.db
+
+# === LOGS ===
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# === EDITOR / IDE ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# === SISTEMA OPERATIVO ===
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# === ARCHIVOS TEMPORALES ===
+*.tmp
+*.temp
+*.log
+*.cache
+
+# === PYTHON ESPECÍFICO ===
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# === NODE.JS ESPECÍFICO ===
+.npm
+.eslintcache
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# === VERCEL ===
+.vercel
+
+
