@@ -11,13 +11,11 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "api/main.py"
-    }
-  ],
-  "rewrites": [
+      "dest": "/api/main.py"
+    },
     {
-      "source": "/((?!api/.*).*)",
-      "destination": "/index.html"
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
