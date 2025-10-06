@@ -1,6 +1,6 @@
-
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+
 
 // Importa tus componentes
 import Navbar from "./components/Navbar";
@@ -97,5 +97,3 @@ export default function App() {
     </Router>
   );
 }
-
-
