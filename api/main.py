@@ -6,6 +6,7 @@ from typing import Optional, List      # ← AGREGAR ESTA LÍNEA
 import sqlite3
 import json                           # ← AGREGAR ESTA LÍNEA
 from pathlib import Path
+from mangum import Mangum
 
 # Cambiar imports relativos
 import database  # En lugar de from . import database
@@ -144,5 +145,4 @@ def actualizar_mis_marcas(username: str, misMarcas: List[int], conn: sqlite3.Con
     return {"success": True}
 
 # IMPORTANTE: Agregar esta función al final
-def handler(request):
-    return app(request.scope, request.receive, request.send)
+handler = Mangum(app)
