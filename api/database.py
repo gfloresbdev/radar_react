@@ -38,12 +38,12 @@ def init_db():
         conn_usuario.close()
 
 def get_marca_connection():
-    conn = sqlite3.connect(MARCA_DB_PATH, check_same_thread=False)
+    conn = sqlite3.connect("marcas.db", check_same_thread=False)  # ← Importante
     conn.row_factory = sqlite3.Row
     return conn
 
 def get_usuario_connection():
-    conn = sqlite3.connect(USUARIO_DB_PATH, check_same_thread=False)
+    conn = sqlite3.connect("usuarios.db", check_same_thread=False)  # ← Importante
     conn.row_factory = sqlite3.Row
     return conn
 

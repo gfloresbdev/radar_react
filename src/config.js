@@ -1,6 +1,6 @@
 const config = {
   API_BASE_URL: process.env.NODE_ENV === 'production' 
-    ? '/api'  // En producción (Vercel)
+    ? ''  // En producción, las rutas API ya empiezan con /api
     : 'http://localhost:5000'  // En desarrollo local
 };
 
