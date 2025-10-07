@@ -1,11 +1,18 @@
 # main.py
 from fastapi import FastAPI, Depends, HTTPException, Body
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field  # ← AGREGAR ESTA LÍNEA
+from typing import Optional, List      # ← AGREGAR ESTA LÍNEA
 import sqlite3
+import json                           # ← AGREGAR ESTA LÍNEA
 from pathlib import Path
 
 # Cambiar imports relativos
 import database  # En lugar de from . import database
+
+# Rutas de las bases de datos
+MARCA_DB_PATH = Path("marcas.db")
+USUARIO_DB_PATH = Path("usuarios.db")
 
 # Inicializa ambas tablas
 database.init_db()
@@ -135,16 +142,6 @@ def actualizar_mis_marcas(username: str, misMarcas: List[int], conn: sqlite3.Con
     cursor.execute("UPDATE usuarios SET misMarcas = ? WHERE username = ?", (mis_marcas_json, username))
     conn.commit()
     return {"success": True}
-
-def get_marca_connection():
-    conn = sqlite3.connect(MARCA_DB_PATH, check_same_thread=False)
-    conn.row_factory = sqlite3.Row
-    return conn
-
-def get_usuario_connection():
-    conn = sqlite3.connect(USUARIO_DB_PATH, check_same_thread=False)
-    conn.row_factory = sqlite3.Row
-    return conn
 
 # IMPORTANTE: Agregar esta función al final
 def handler(request):
