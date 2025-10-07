@@ -128,13 +128,19 @@ def consultar_usuario(username: str, conn: sqlite3.Connection = Depends(get_usua
 
 @app.post("/api/usuarios/login")
 def login_usuario(data: UsuarioLogin = Body(...), conn: sqlite3.Connection = Depends(get_usuario_conn)):
-    user = database.get_user(conn, data.username)
-    print("USER:", user)
-    if user and user[2] == data.password:
-        mis_marcas = json.loads(user[3]) if user[3] else []
-        return {"id": user[0], "username": user[1], "misMarcas": mis_marcas}
-    else:
-        raise HTTPException(status_code=401, detail="Credenciales incorrectas")
+    try:
+        print(f"Intentando login para usuario: {data.username}")
+        user = database.get_user(conn, data.username)
+        print(f"Usuario encontrado: {user is not None}")
+        
+        if user and user[2] == data.password:
+            mis_marcas = json.loads(user[3]) if user[3] else []
+            return {"id": user[0], "username": user[1], "misMarcas": mis_marcas}
+        else:
+            raise HTTPException(status_code=401, detail="Credenciales incorrectas")
+    except Exception as e:
+        print(f"Error en login: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.put("/api/usuarios/{username}/misMarcas")
 def actualizar_mis_marcas(username: str, misMarcas: List[int], conn: sqlite3.Connection = Depends(get_usuario_conn)):
@@ -143,6 +149,21 @@ def actualizar_mis_marcas(username: str, misMarcas: List[int], conn: sqlite3.Con
     cursor.execute("UPDATE usuarios SET misMarcas = ? WHERE username = ?", (mis_marcas_json, username))
     conn.commit()
     return {"success": True}
+
+@app.post("/api/usuarios/register")
+def registrar_usuario(data: UsuarioCreate, conn: sqlite3.Connection = Depends(get_usuario_conn)):
+    try:
+        # Verificar si el usuario ya existe
+        existing_user = database.get_user(conn, data.username)
+        if existing_user:
+            raise HTTPException(status_code=400, detail="El usuario ya existe")
+        
+        mis_marcas_json = json.dumps(data.misMarcas or [])
+        user_id = database.add_user(conn, data.username, data.password, mis_marcas_json)
+        return {"id": user_id, "username": data.username, "misMarcas": data.misMarcas or []}
+    except Exception as e:
+        print(f"Error en register: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 # IMPORTANTE: Agregar esta función al final
 handler = Mangum(app)
