@@ -21,7 +21,7 @@ MARCA_DB_PATH = Path("marcas.db")
 USUARIO_DB_PATH = Path("usuarios.db")
 
 # Inicializa ambas tablas
-database.init_db()
+# database.init_db()
 
 app = FastAPI(title="POC Marcas")
 

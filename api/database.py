@@ -6,46 +6,45 @@ import sqlite3
 MARCA_DB_PATH = Path("marcas.db")
 USUARIO_DB_PATH = Path("usuarios.db")
 
-def init_db():
-    # Inicializa ambas tablas en sus archivos correspondientes
-    conn_marca = sqlite3.connect(MARCA_DB_PATH)
-    conn_usuario = sqlite3.connect(USUARIO_DB_PATH)
-    try:
-        conn_marca.execute("""
-            CREATE TABLE IF NOT EXISTS marcas (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                nombre TEXT NOT NULL,
-                expediente INTEGER NOT NULL,
-                clase TEXT,
-                descripcion TEXT,
-                fechaSolicitud TEXT,
-                nombrePropietario TEXT,
-                estado TEXT,
-                created_at TEXT NOT NULL DEFAULT (datetime('now'))
-            );
-        """)
-        conn_marca.commit()
-        conn_usuario.execute("""
-            CREATE TABLE IF NOT EXISTS usuarios (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                username TEXT UNIQUE NOT NULL,
-                password TEXT NOT NULL
-            );
-        """)
-        conn_usuario.commit()
-    finally:
-        conn_marca.close()
-        conn_usuario.close()
-
+# Usar bases de datos en memoria
 def get_marca_connection():
-    conn = sqlite3.connect("marcas.db", check_same_thread=False)  # ← Importante
-    conn.row_factory = sqlite3.Row
+    conn = sqlite3.connect(":memory:")
+    # Recrear la tabla cada vez
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS marcas (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT NOT NULL,
+            expediente TEXT NOT NULL,
+            clase TEXT DEFAULT '',
+            descripcion TEXT DEFAULT '',
+            fechaSolicitud TEXT DEFAULT '',
+            nombrePropietario TEXT DEFAULT '',
+            estado TEXT DEFAULT '',
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+    conn.commit()
     return conn
 
 def get_usuario_connection():
-    conn = sqlite3.connect("usuarios.db", check_same_thread=False)  # ← Importante
-    conn.row_factory = sqlite3.Row
+    conn = sqlite3.connect(":memory:")
+    # Recrear la tabla cada vez
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS usuarios (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL,
+            misMarcas TEXT DEFAULT '[]'
+        )
+    ''')
+    conn.commit()
     return conn
+
+def init_db():
+    # Ya no necesario, las tablas se crean en get_*_connection
+    pass
 
 # --- MARCAS CRUD ---
 def create_marca(conn, nombre: str, expediente: str):
