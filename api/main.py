@@ -1,15 +1,20 @@
 # main.py
 from fastapi import FastAPI, Depends, HTTPException, Body
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field  # ← AGREGAR ESTA LÍNEA
-from typing import Optional, List      # ← AGREGAR ESTA LÍNEA
+from pydantic import BaseModel, Field
+from typing import Optional, List
 import sqlite3
-import json                           # ← AGREGAR ESTA LÍNEA
+import json
 from pathlib import Path
 from mangum import Mangum
+import sys
+import os
 
-# Cambiar imports relativos
-import database  # En lugar de from . import database
+# Agregar el directorio actual al path de Python
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+# Ahora importar database
+import database
 
 # Rutas de las bases de datos
 MARCA_DB_PATH = Path("marcas.db")
