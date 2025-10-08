@@ -6,43 +6,6 @@ import psycopg2
 import os
 import json
 
-MARCA_DB_PATH = Path("marcas.db")
-USUARIO_DB_PATH = Path("usuarios.db")
-
-# Usar conexiones en memoria
-def get_marca_connection():
-    conn = sqlite3.connect(":memory:")
-    cursor = conn.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS marcas (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nombre TEXT NOT NULL,
-            expediente TEXT NOT NULL,
-            clase TEXT DEFAULT '',
-            descripcion TEXT DEFAULT '',
-            fechaSolicitud TEXT DEFAULT '',
-            nombrePropietario TEXT DEFAULT '',
-            estado TEXT DEFAULT '',
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-    ''')
-    conn.commit()
-    return conn
-
-def get_usuario_connection():
-    conn = sqlite3.connect(":memory:")
-    cursor = conn.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS usuarios (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL,
-            misMarcas TEXT DEFAULT '[]'
-        )
-    ''')
-    conn.commit()
-    return conn
-
 def get_connection():
     return psycopg2.connect(
         host=os.environ.get('POSTGRES_HOST'),
@@ -57,7 +20,6 @@ def init_tables():
     conn = get_connection()
     cursor = conn.cursor()
     
-    # Crear tabla usuarios
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS usuarios (
             id SERIAL PRIMARY KEY,
@@ -67,7 +29,6 @@ def init_tables():
         )
     ''')
     
-    # Crear tabla marcas  
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS marcas (
             id SERIAL PRIMARY KEY,
@@ -85,8 +46,16 @@ def init_tables():
     conn.commit()
     conn.close()
 
-# Resto de funciones permanecen igual...
-def add_user(conn, username, password, mis_marcas_json):
+def get_user(username):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM usuarios WHERE username = %s", (username,))
+    user = cursor.fetchone()
+    conn.close()
+    return user
+
+def add_user(username, password, mis_marcas_json):
+    conn = get_connection()
     cursor = conn.cursor()
     cursor.execute(
         "INSERT INTO usuarios (username, password, mis_marcas) VALUES (%s, %s, %s) RETURNING id",
@@ -97,14 +66,8 @@ def add_user(conn, username, password, mis_marcas_json):
     conn.close()
     return user_id
 
-def get_user(conn, username):
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM usuarios WHERE username = %s", (username,))
-    user = cursor.fetchone()
-    conn.close()
-    return user
-
-def list_marcas(conn):
+def list_marcas():
+    conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM marcas ORDER BY id DESC")
     rows = cursor.fetchall()

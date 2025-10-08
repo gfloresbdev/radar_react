@@ -22,6 +22,7 @@ except Exception as e:
 def login_usuario():
     try:
         data = request.get_json()
+        print(f"Intentando login para: {data.get('username')}")
         user = database.get_user(data["username"])
         
         if user and user[2] == data["password"]:
@@ -37,6 +38,7 @@ def login_usuario():
 def registrar_usuario():
     try:
         data = request.get_json()
+        print(f"Datos recibidos para registro: {data}")
         
         # Verificar si el usuario ya existe
         existing_user = database.get_user(data["username"])
@@ -49,6 +51,8 @@ def registrar_usuario():
         return jsonify({"id": user_id, "username": data["username"], "misMarcas": data.get("misMarcas", [])})
     except Exception as e:
         print(f"Error en register: {str(e)}")
+        import traceback
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
 @app.route('/marcas', methods=['GET'])
