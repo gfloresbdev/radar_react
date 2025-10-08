@@ -7,12 +7,24 @@ import os
 import json
 
 def get_connection():
+    # Usar variables con prefijo STORAGE_POSTGRES_
+    host = os.environ.get('STORAGE_POSTGRES_HOST')
+    database = os.environ.get('STORAGE_POSTGRES_DATABASE') 
+    user = os.environ.get('STORAGE_POSTGRES_USER')
+    password = os.environ.get('STORAGE_POSTGRES_PASSWORD')
+    port = os.environ.get('STORAGE_POSTGRES_PORT', '5432')
+    
+    print(f"Conectando a: host={host}, db={database}, user={user}, port={port}")
+    
+    if not host or not database or not user or not password:
+        raise Exception("Variables de entorno de PostgreSQL no configuradas")
+    
     return psycopg2.connect(
-        host=os.environ.get('POSTGRES_HOST'),
-        database=os.environ.get('POSTGRES_DATABASE'),
-        user=os.environ.get('POSTGRES_USER'),
-        password=os.environ.get('POSTGRES_PASSWORD'),
-        port=os.environ.get('POSTGRES_PORT', '5432'),
+        host=host,
+        database=database,
+        user=user,
+        password=password,
+        port=port,
         sslmode='require'
     )
 
