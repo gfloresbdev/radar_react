@@ -24,7 +24,7 @@ export default function Buscador({
 
     try {
       const response = await fetch(
-        `${config.API_BASE_URL}/marcas/buscar?${tipoBusqueda}=${encodeURIComponent(
+        `${config.API_BASE_URL}/api/marcas/buscar?${tipoBusqueda}=${encodeURIComponent(
           busqueda
         )}`
       ); // CAMBIO AQUÍ
@@ -53,7 +53,7 @@ export default function Buscador({
   const handleVerDetalle = async (marca) => {
     try {
       const response = await fetch(
-        `${config.API_BASE_URL}/marcas/${marca.expediente}`
+        `${config.API_BASE_URL}/api/marcas/${marca.expediente}`
       ); // CAMBIO AQUÍ
       if (response.ok) {
         const marcaDetalle = await response.json();

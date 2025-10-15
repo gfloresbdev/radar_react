@@ -37,7 +37,7 @@ const DebugPanel = ({ devLoggedIn, setDevLoggedIn }) => {
 
   const handleSave = async () => {
     try {
-      const response = await fetch(`${config.API_BASE_URL}/marcas`, {
+      const response = await fetch(`${config.API_BASE_URL}/api/marcas`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -50,8 +50,16 @@ const DebugPanel = ({ devLoggedIn, setDevLoggedIn }) => {
         alert('Marca creada exitosamente');
         handleCancel(); // Limpiar formulario y cerrar
       } else {
-        const error = await response.json();
-        alert(`Error: ${error.error || 'No se pudo crear la marca'}`);
+        // Manejar errores HTTP sin intentar parsear JSON si no hay contenido
+        let errorMessage = 'No se pudo crear la marca';
+        try {
+          const error = await response.json();
+          errorMessage = error.error || errorMessage;
+        } catch (jsonError) {
+          // Si no se puede parsear JSON, usar el status text
+          errorMessage = `Error ${response.status}: ${response.statusText}`;
+        }
+        alert(`Error: ${errorMessage}`);
       }
     } catch (error) {
       console.error('Error creando marca:', error);

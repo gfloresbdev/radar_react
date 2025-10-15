@@ -63,7 +63,7 @@ def login_usuario():
         print(f"Error en login: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@app.route('/marcas', methods=['GET'])
+@app.route('/api/marcas', methods=['GET'])
 def listar_marcas():
     try:
         marcas = database.list_marcas()
@@ -72,7 +72,7 @@ def listar_marcas():
         print(f"Error listando marcas: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-@app.route('/marcas', methods=['POST'])
+@app.route('/api/marcas', methods=['POST'])
 def crear_marca():
     try:
         data = request.get_json()
@@ -88,6 +88,90 @@ def crear_marca():
         return jsonify({"id": marca_id, "message": "Marca creada exitosamente"})
     except Exception as e:
         print(f"Error creando marca: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/marcas/buscar', methods=['GET'])
+def buscar_marcas():
+    try:
+        nombre = request.args.get('nombre', '')
+        expediente = request.args.get('expediente', '')
+        titular = request.args.get('titular', '')
+        
+        marcas = database.list_marcas()
+        
+        # Filtrar según el parámetro de búsqueda
+        resultados = []
+        for marca in marcas:
+            if nombre and nombre.lower() in marca['nombre'].lower():
+                resultados.append(marca)
+            elif expediente and expediente in marca['expediente']:
+                resultados.append(marca)
+            elif titular and titular.lower() in marca['nombrePropietario'].lower():
+                resultados.append(marca)
+                
+        return jsonify(resultados)
+    except Exception as e:
+        print(f"Error buscando marcas: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/marcas/<expediente>', methods=['GET'])
+def obtener_marca_por_expediente(expediente):
+    try:
+        marcas = database.list_marcas()
+        marca = next((m for m in marcas if m['expediente'] == expediente), None)
+        
+        if marca:
+            return jsonify(marca)
+        else:
+            return jsonify({"error": "Marca no encontrada"}), 404
+    except Exception as e:
+        print(f"Error obteniendo marca: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/usuarios/<username>', methods=['GET'])
+def obtener_usuario(username):
+    try:
+        user = database.get_user(username)
+        if user:
+            return jsonify({
+                "id": user[0], 
+                "username": user[1], 
+                "misMarcas": user[3] if user[3] else []
+            })
+        else:
+            return jsonify({"error": "Usuario no encontrado"}), 404
+    except Exception as e:
+        print(f"Error obteniendo usuario: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/usuarios/<username>/marcas', methods=['POST'])
+def agregar_marca_usuario(username):
+    try:
+        data = request.get_json()
+        marca_id = data.get('marcaId')
+        
+        # Aquí deberías implementar la lógica para agregar la marca al usuario
+        # Por ahora devuelvo el usuario actual sin cambios
+        user = database.get_user(username)
+        if user:
+            return jsonify({
+                "id": user[0], 
+                "username": user[1], 
+                "misMarcas": user[3] if user[3] else []
+            })
+        else:
+            return jsonify({"error": "Usuario no encontrado"}), 404
+    except Exception as e:
+        print(f"Error agregando marca a usuario: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/similitudes', methods=['GET'])
+def obtener_similitudes():
+    try:
+        # Placeholder para similitudes - implementar lógica más tarde
+        return jsonify([])
+    except Exception as e:
+        print(f"Error obteniendo similitudes: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 # Para Vercel con Flask

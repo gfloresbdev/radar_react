@@ -13,7 +13,7 @@ export default function Marca() {
     const fetchMarca = async () => {
       try {
         const response = await fetch(
-          `${config.API_BASE_URL}/marcas/${expediente}` // CAMBIO AQUÍ
+          `${config.API_BASE_URL}/api/marcas/${expediente}` // CAMBIO AQUÍ
         );
 
         if (response.ok) {

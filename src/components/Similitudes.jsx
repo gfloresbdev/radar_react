@@ -9,7 +9,7 @@ export default function Similitudes() {
     const fetchSimilitudes = async () => {
       try {
         const response = await fetch(
-          `${config.API_BASE_URL}/similitudes`
+          `${config.API_BASE_URL}/api/similitudes`
         ); // CAMBIO AQUÍ
         if (response.ok) {
           const data = await response.json();

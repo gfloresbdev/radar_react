@@ -29,7 +29,7 @@ export default function MisMarcas({ usuarioActual }) {
     }
 
     // Cambiar URL para marcas
-    fetch(`${config.API_BASE_URL}/marcas`)  // CAMBIO AQUÍ
+    fetch(`${config.API_BASE_URL}/api/marcas`)  // CAMBIO AQUÍ
       .then(res => res.json())
       .then(data => {
         // Filtra solo las marcas cuyos IDs están en misMarcas
