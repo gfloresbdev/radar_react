@@ -100,12 +100,13 @@ def list_marcas():
         for row in rows
     ]
 
-def create_marca(nombre, expediente):
+def create_marca(nombre, expediente, clase='', descripcion='', fecha_solicitud='', nombre_propietario='', estado=''):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute(
-        "INSERT INTO marcas (nombre, expediente) VALUES (%s, %s) RETURNING id",
-        (nombre, expediente)
+        """INSERT INTO marcas (nombre, expediente, clase, descripcion, fecha_solicitud, nombre_propietario, estado) 
+           VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING id""",
+        (nombre, expediente, clase, descripcion, fecha_solicitud, nombre_propietario, estado)
     )
     marca_id = cursor.fetchone()[0]
     conn.commit()

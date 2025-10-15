@@ -76,7 +76,15 @@ def listar_marcas():
 def crear_marca():
     try:
         data = request.get_json()
-        marca_id = database.create_marca(data["nombre"], data["expediente"])
+        marca_id = database.create_marca(
+            nombre=data["nombre"],
+            expediente=data["expediente"],
+            clase=data.get("clase", ""),
+            descripcion=data.get("descripcion", ""),
+            fecha_solicitud=data.get("fechaSolicitud", ""),
+            nombre_propietario=data.get("nombrePropietario", ""),
+            estado=data.get("estado", "")
+        )
         return jsonify({"id": marca_id, "message": "Marca creada exitosamente"})
     except Exception as e:
         print(f"Error creando marca: {str(e)}")
