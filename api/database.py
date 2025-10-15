@@ -112,3 +112,36 @@ def create_marca(nombre, expediente, clase='', descripcion='', fecha_solicitud='
     conn.commit()
     conn.close()
     return marca_id
+
+def agregar_marca_a_usuario(username, marca_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    # Obtener las marcas actuales del usuario
+    cursor.execute("SELECT mis_marcas FROM usuarios WHERE username = %s", (username,))
+    result = cursor.fetchone()
+    
+    if not result:
+        conn.close()
+        return None
+    
+    # Parsear las marcas actuales (puede ser None o una lista)
+    marcas_actuales = result[0] if result[0] else []
+    
+    # Agregar la nueva marca si no está ya presente
+    if marca_id not in marcas_actuales:
+        marcas_actuales.append(marca_id)
+        
+        # Actualizar en la base de datos
+        cursor.execute(
+            "UPDATE usuarios SET mis_marcas = %s WHERE username = %s",
+            (json.dumps(marcas_actuales), username)
+        )
+        conn.commit()
+    
+    # Obtener el usuario actualizado
+    cursor.execute("SELECT * FROM usuarios WHERE username = %s", (username,))
+    user = cursor.fetchone()
+    conn.close()
+    
+    return user

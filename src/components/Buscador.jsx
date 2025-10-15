@@ -65,7 +65,13 @@ export default function Buscador({
   };
 
   const handleAgregarMarca = async (marca) => {
-    if (!usuarioActual) return;
+    if (!usuarioActual) {
+      console.log("No hay usuario actual");
+      return;
+    }
+
+    console.log("Agregando marca:", marca.id, "Usuario actual:", usuarioActual);
+    console.log("Marcas actuales del usuario:", usuarioActual.misMarcas);
 
     try {
       const response = await fetch(
@@ -81,8 +87,12 @@ export default function Buscador({
 
       if (response.ok) {
         const updatedUser = await response.json();
+        console.log("Usuario actualizado:", updatedUser);
         setUsuarioActual(updatedUser);
         agregarMarca(marca.expediente);
+      } else {
+        const errorData = await response.json();
+        console.error("Error del servidor:", errorData);
       }
     } catch (error) {
       console.error("Error al seguir marca:", error);

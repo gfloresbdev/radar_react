@@ -55,12 +55,21 @@ def login_usuario():
         user = database.get_user(data["username"])
         
         if user and user[2] == data["password"]:
+            # Asegurar que mis_marcas sea una lista de enteros
             mis_marcas = user[3] if user[3] else []
-            return jsonify({"id": user[0], "username": user[1], "misMarcas": mis_marcas})
+            print(f"Usuario logueado: {user[1]}, marcas: {mis_marcas}, tipo: {type(mis_marcas)}")
+            
+            return jsonify({
+                "id": user[0], 
+                "username": user[1], 
+                "misMarcas": mis_marcas
+            })
         else:
             return jsonify({"error": "Credenciales incorrectas"}), 401
     except Exception as e:
         print(f"Error en login: {str(e)}")
+        import traceback
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
 @app.route('/api/marcas', methods=['GET'])
@@ -133,10 +142,13 @@ def obtener_usuario(username):
     try:
         user = database.get_user(username)
         if user:
+            mis_marcas = user[3] if user[3] else []
+            print(f"Obteniendo usuario: {username}, marcas: {mis_marcas}")
+            
             return jsonify({
                 "id": user[0], 
                 "username": user[1], 
-                "misMarcas": user[3] if user[3] else []
+                "misMarcas": mis_marcas
             })
         else:
             return jsonify({"error": "Usuario no encontrado"}), 404
@@ -150,19 +162,29 @@ def agregar_marca_usuario(username):
         data = request.get_json()
         marca_id = data.get('marcaId')
         
-        # Aquí deberías implementar la lógica para agregar la marca al usuario
-        # Por ahora devuelvo el usuario actual sin cambios
-        user = database.get_user(username)
+        print(f"Agregando marca {marca_id} al usuario {username}")
+        
+        if not marca_id:
+            return jsonify({"error": "marcaId es requerido"}), 400
+        
+        # Agregar la marca al usuario
+        user = database.agregar_marca_a_usuario(username, marca_id)
+        
         if user:
+            mis_marcas = user[3] if user[3] else []
+            print(f"Usuario actualizado - marcas: {mis_marcas}")
+            
             return jsonify({
                 "id": user[0], 
                 "username": user[1], 
-                "misMarcas": user[3] if user[3] else []
+                "misMarcas": mis_marcas
             })
         else:
             return jsonify({"error": "Usuario no encontrado"}), 404
     except Exception as e:
         print(f"Error agregando marca a usuario: {str(e)}")
+        import traceback
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
 @app.route('/api/similitudes', methods=['GET'])
