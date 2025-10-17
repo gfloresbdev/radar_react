@@ -178,37 +178,128 @@
   background: #28a745;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-  .buscador-container {
-    margin: 1rem;
-    padding: 1.5rem;
-  }
-  
-  .buscador-controls {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .buscador-select,
-  .buscador-input,
-  .buscador-button {
-    width: 100%;
-  }
-  
-  .results-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  
-  .marca-detalle {
-    padding: 1.5rem;
-    margin: 1rem;
-  }
-  
-  .detalle-content strong {
-    min-width: 100px;
-  }
+/* Tabla de resultados */
+.results-table-container {
+  background: var(--color-buscador-detalle-bg);
+  border-radius: 10px;
+  padding: 1rem;
+  overflow-x: auto;
+  box-shadow: 0 2px 8px var(--color-buscador-shadow-medium);
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--color-navbar-bg);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.results-table thead {
+  background: var(--color-navbar-link-hover);
+}
+
+.results-table th {
+  padding: 1rem 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--color-navbar-bg);
+  border-bottom: 2px solid var(--color-buscador-btn-hover);
+  position: relative;
+}
+
+.sortable-header {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s;
+}
+
+.sortable-header:hover {
+  background: var(--color-buscador-btn-hover);
+}
+
+.sort-icon {
+  margin-left: 0.5rem;
+  font-size: 0.8em;
+  opacity: 0.8;
+}
+
+.action-header {
+  text-align: center;
+  width: 120px;
+}
+
+.results-table tbody tr {
+  transition: background-color 0.2s;
+}
+
+.results-table tbody tr:nth-child(even) {
+  background: var(--color-buscador-detalle-bg);
+}
+
+.results-table tbody tr:hover {
+  background: var(--color-buscador-shadow-light);
+}
+
+.results-table td {
+  padding: 0.75rem;
+  color: var(--color-navbar-link);
+  border-bottom: 1px solid var(--color-buscador-shadow-medium);
+  vertical-align: middle;
+}
+
+.nombre-cell.clickable {
+  color: var(--color-navbar-link-hover);
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nombre-cell.clickable:hover {
+  color: var(--color-buscador-btn-hover);
+  text-decoration: underline;
+}
+
+.expediente-cell {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.95em;
+}
+
+.action-cell {
+  text-align: center;
+}
+
+.seguir-button-table {
+  background: var(--color-navbar-link-hover);
+  color: var(--color-navbar-bg);
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  font-size: 0.9em;
+}
+
+.seguir-button-table:hover:not(:disabled) {
+  background: var(--color-buscador-btn-hover);
+  transform: translateY(-1px);
+}
+
+.seguir-button-table:disabled,
+.seguir-button-table.seguido {
+  background: #28a745;
+  color: white;
+  cursor: default;
+  opacity: 0.8;
+}
+
+.seguir-button-table:disabled:hover,
+.seguir-button-table.seguido:hover {
+  transform: none;
+  background: #28a745;
 }
 
 .marca-detalle-overlay {
@@ -288,6 +379,80 @@
 }
 
 
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .buscador-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .buscador-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .buscador-select,
+  .buscador-input,
+  .buscador-button {
+    width: 100%;
+  }
+  
+  .marca-detalle {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .detalle-content strong {
+    min-width: 100px;
+  }
+
+  /* Tabla responsive */
+  .results-table-container {
+    overflow-x: auto;
+    padding: 0.5rem;
+  }
+  
+  .results-table {
+    min-width: 600px;
+  }
+  
+  .results-table th,
+  .results-table td {
+    padding: 0.5rem 0.4rem;
+    font-size: 0.9em;
+  }
+  
+  .sort-icon {
+    margin-left: 0.25rem;
+  }
+  
+  .seguir-button-table {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8em;
+  }
+}
+
+@media (max-width: 480px) {
+  .results-table {
+    min-width: 500px;
+  }
+  
+  .results-table th,
+  .results-table td {
+    padding: 0.4rem 0.3rem;
+    font-size: 0.8em;
+  }
+  
+  .seguir-button-table {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75em;
+  }
+  
+  .action-header {
+    width: 100px;
+  }
+}
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-8px);}

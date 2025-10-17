@@ -15,6 +15,12 @@ export default function Buscador({
   const [cargando, setCargando] = useState(false);
   const [detalleAbierto, setDetalleAbierto] = useState(null);
   const [error, setError] = useState("");
+  
+  // Estado para ordenamiento
+  const [sortConfig, setSortConfig] = useState({
+    key: null,
+    direction: 'asc'
+  });
 
   const handleBuscar = async () => {
     if (!busqueda.trim()) return;
@@ -103,6 +109,47 @@ export default function Buscador({
     setDetalleAbierto(null);
   };
 
+  // Función para manejar el ordenamiento
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  // Función para ordenar los resultados
+  const getSortedResults = () => {
+    if (!sortConfig.key) return resultados;
+
+    return [...resultados].sort((a, b) => {
+      let aValue = a[sortConfig.key];
+      let bValue = b[sortConfig.key];
+
+      // Manejar valores null/undefined
+      if (aValue === null || aValue === undefined) aValue = "";
+      if (bValue === null || bValue === undefined) bValue = "";
+
+      // Convertir a string para comparación
+      aValue = aValue.toString().toLowerCase();
+      bValue = bValue.toString().toLowerCase();
+
+      if (sortConfig.direction === 'asc') {
+        return aValue.localeCompare(bValue);
+      } else {
+        return bValue.localeCompare(aValue);
+      }
+    });
+  };
+
+  // Función para obtener el icono de ordenamiento
+  const getSortIcon = (columnKey) => {
+    if (sortConfig.key !== columnKey) {
+      return "↕️"; // Icono neutral
+    }
+    return sortConfig.direction === 'asc' ? "▲" : "▼";
+  };
+
   return (
     <div className="buscador-container">
       <div className="buscador-header">
@@ -139,38 +186,60 @@ export default function Buscador({
 
       <div className="buscador-results">
         {resultados.length > 0 && (
-          <div className="results-grid">
-            {resultados.map((marca) => (
-              <div key={marca.id} className="marca-card">
-                <h3
-                  onClick={() => handleVerDetalle(marca)}
-                  className="marca-nombre"
-                >
-                  {marca.nombre}
-                </h3>
-                <p>
-                  <strong>Expediente:</strong> {marca.expediente}
-                </p>
-                <p>
-                  <strong>Clase:</strong> {marca.clase || "N/A"}
-                </p>
-                <p>
-                  <strong>Titular:</strong> {marca.nombrePropietario || "N/A"}
-                </p>
-
-                <button
-                  onClick={() => handleAgregarMarca(marca)}
-                  disabled={usuarioActual?.misMarcas?.includes(marca.id)}
-                  className={`seguir-button ${
-                    usuarioActual?.misMarcas?.includes(marca.id) ? "seguido" : ""
-                  }`}
-                >
-                  {usuarioActual?.misMarcas?.includes(marca.id)
-                    ? "Siguiendo"
-                    : "Seguir"}
-                </button>
-              </div>
-            ))}
+          <div className="results-table-container">
+            <table className="results-table">
+              <thead>
+                <tr>
+                  <th onClick={() => handleSort('nombre')} className="sortable-header">
+                    Nombre <span className="sort-icon">{getSortIcon('nombre')}</span>
+                  </th>
+                  <th onClick={() => handleSort('expediente')} className="sortable-header">
+                    Expediente <span className="sort-icon">{getSortIcon('expediente')}</span>
+                  </th>
+                  <th onClick={() => handleSort('clase')} className="sortable-header">
+                    Clase <span className="sort-icon">{getSortIcon('clase')}</span>
+                  </th>
+                  <th onClick={() => handleSort('nombrePropietario')} className="sortable-header">
+                    Titular <span className="sort-icon">{getSortIcon('nombrePropietario')}</span>
+                  </th>
+                  <th className="action-header">Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                {getSortedResults().map((marca) => (
+                  <tr key={marca.id} className="result-row">
+                    <td 
+                      onClick={() => handleVerDetalle(marca)}
+                      className="nombre-cell clickable"
+                    >
+                      {marca.nombre}
+                    </td>
+                    <td className="expediente-cell">
+                      {marca.expediente}
+                    </td>
+                    <td className="clase-cell">
+                      {marca.clase || "N/A"}
+                    </td>
+                    <td className="titular-cell">
+                      {marca.nombrePropietario || "N/A"}
+                    </td>
+                    <td className="action-cell">
+                      <button
+                        onClick={() => handleAgregarMarca(marca)}
+                        disabled={usuarioActual?.misMarcas?.includes(marca.id)}
+                        className={`seguir-button-table ${
+                          usuarioActual?.misMarcas?.includes(marca.id) ? "seguido" : ""
+                        }`}
+                      >
+                        {usuarioActual?.misMarcas?.includes(marca.id)
+                          ? "Siguiendo"
+                          : "Seguir"}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </div>
