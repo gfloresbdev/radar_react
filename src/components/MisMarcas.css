@@ -59,15 +59,15 @@
 }
 .mis-marcas-container tbody tr:nth-child(even) {
   /* Fallback aproximado */
-  background: #2b3143;
+  background: var(--color-bg-tertiary);
   /* Preferido: ligero mix hacia blanco (si el navegador soporta color-mix) */
-  background: color-mix(in srgb, var(--color-buscador-input-bg, #232837) 88%, white 12%);
+  background: color-mix(in srgb, var(--color-bg-secondary) 88%, white 12%);
 }
 
 .mis-marcas-container tbody tr:hover {
   /* Fallback */
-  background: #31384a;
-  background: color-mix(in srgb, var(--color-buscador-input-bg, #232837) 80%, white 20%);
+  background: var(--color-bg-tertiary);
+  background: color-mix(in srgb, var(--color-bg-secondary) 80%, white 20%);
 }
 
 .mis-marcas-container td a {
@@ -102,7 +102,7 @@
 .mis-marcas-table td {
   padding: 0.8em 1em;
   text-align: left;
-  border-bottom: 1px solid #232837;
+  border-bottom: 1px solid var(--color-bg-secondary);
 }
 
 .mis-marcas-table th {

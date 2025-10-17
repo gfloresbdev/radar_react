@@ -2,10 +2,10 @@
   position: fixed;
   bottom: 2rem;
   left: 2rem;
-  background: var(--color-navbar-bg, #181c24);
-  color: var(--color-text-secondary-dark, #bebebe);
+  background: var(--color-bg-primary);
+  color: var(--color-text-muted);
   border-radius: 10px;
-  box-shadow: 0 2px 12px #000a;
+  box-shadow: 0 2px 12px var(--color-shadow-navbar);
   padding: 1rem 1.5rem;
   z-index: 9999;
   min-width: 180px;
@@ -17,7 +17,7 @@
   font-size: 0.95em;
   font-weight: 600;
   margin-bottom: 0.7em;
-  color: var(--color-text-secondary-dark, #bebebe);
+  color: var(--color-text-muted);
   letter-spacing: 1px;
 }
 
@@ -30,8 +30,8 @@
 }
 
 .debug-create-button {
-  background: var(--color-primary, #007bff);
-  color: white;
+  background: var(--color-primary-dark);
+  color: var(--color-text-primary);
   border: none;
   padding: 0.5em 1em;
   border-radius: 5px;
@@ -42,7 +42,7 @@
 }
 
 .debug-create-button:hover {
-  background: var(--color-primary-dark, #0056b3);
+  background: var(--color-primary-dark-hover);
 }
 
 .debug-form-container {
@@ -51,7 +51,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: var(--color-shadow-overlay);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -59,11 +59,11 @@
 }
 
 .debug-form {
-  background: var(--color-navbar-bg, #181c24);
-  color: var(--color-text-secondary-dark, #bebebe);
+  background: var(--color-bg-primary);
+  color: var(--color-text-muted);
   padding: 2rem;
   border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 20px var(--color-shadow-modal);
   max-width: 500px;
   width: 90%;
   max-height: 80vh;
@@ -74,7 +74,7 @@
 .debug-form h3 {
   margin-top: 0;
   margin-bottom: 1.5rem;
-  color: var(--color-text-primary-dark, #ffffff);
+  color: var(--color-text-primary);
   text-align: center;
 }
 
@@ -86,7 +86,7 @@
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
-  color: var(--color-text-secondary-dark, #bebebe);
+  color: var(--color-text-muted);
 }
 
 .form-group input,
@@ -94,10 +94,10 @@
 .form-group select {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #444;
+  border: 1px solid var(--color-border-light);
   border-radius: 5px;
-  background: #2a2e37;
-  color: white;
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
   font-size: 1rem;
   box-sizing: border-box;
 }
@@ -106,8 +106,8 @@
 .form-group textarea:focus,
 .form-group select:focus {
   outline: none;
-  border-color: var(--color-primary, #007bff);
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  border-color: var(--color-primary-dark);
+  box-shadow: 0 0 0 2px var(--color-shadow-focus);
 }
 
 .form-group textarea {
@@ -134,25 +134,25 @@
 }
 
 .cancel-button {
-  background: #6c757d;
-  color: white;
+  background: var(--color-border-muted);
+  color: var(--color-text-primary);
 }
 
 .cancel-button:hover {
-  background: #5a6268;
+  background: var(--color-border-dark);
 }
 
 .save-button {
-  background: var(--color-primary, #007bff);
-  color: white;
+  background: var(--color-primary-dark);
+  color: var(--color-text-primary);
 }
 
 .save-button:hover:not(:disabled) {
-  background: var(--color-primary-dark, #0056b3);
+  background: var(--color-primary-dark-hover);
 }
 
 .save-button:disabled {
-  background: #495057;
+  background: var(--color-border-dark);
   cursor: not-allowed;
   opacity: 0.6;
 }

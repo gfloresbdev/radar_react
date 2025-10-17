@@ -4,38 +4,80 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgb(255, 255, 255);
-  background-color: #242424;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-body);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --color-navbar-bg: #181c24;
-  --color-navbar-shadow: #000a;
-  --color-navbar-link: #e0e0e0;
-  --color-navbar-link-hover: #00ffe7;
-  --color-navbar-link-underline: #00ffe7;
+  /* === COLORES PRINCIPALES === */
+  --color-primary: #00ffe7;
+  --color-primary-hover: #00ccb3;
+  --color-primary-dark: #007bff;
+  --color-primary-dark-hover: #0056b3;
   
-  --color-buscador-input-bg: #232837;
-  --color-buscador-btn-hover: #00ccb3;
-  --color-buscador-detalle-bg: #232837;
-  --color-buscador-cerrar-hover: #ff4b4b;
-  --color-buscador-shadow-light: #0004;
-  --color-buscador-shadow-medium: #0002;
-  --color-buscador-shadow-strong: #0003;
+  /* === COLORES DE FONDO === */
+  --color-bg-body: #242424;
+  --color-bg-primary: #181c24;
+  --color-bg-secondary: #232837;
+  --color-bg-tertiary: #2a2e37;
+  --color-bg-light: #1a1a1a;
+  
+  /* === COLORES DE TEXTO === */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #e0e0e0;
+  --color-text-muted: #bebebe;
+  --color-text-link: #646cff;
+  --color-text-link-hover: #535bf2;
+  
+  /* === COLORES DE ESTADO === */
+  --color-success: #28a745;
+  --color-error: #dc3545;
+  --color-warning: #ff4b4b;
+  --color-info: #007bff;
+  
+  /* === COLORES DE BORDE Y SEPARADORES === */
+  --color-border-light: #444444;
+  --color-border-muted: #5a6268;
+  --color-border-dark: #495057;
+  
+  /* === SOMBRAS === */
+  --color-shadow-light: rgba(0, 0, 0, 0.04);
+  --color-shadow-medium: rgba(0, 0, 0, 0.02);
+  --color-shadow-strong: rgba(0, 0, 0, 0.03);
+  --color-shadow-overlay: rgba(0, 0, 0, 0.7);
+  --color-shadow-modal: rgba(0, 0, 0, 0.5);
+  --color-shadow-focus: rgba(0, 123, 255, 0.25);
+  --color-shadow-navbar: rgba(0, 0, 0, 0.67);
+  
+  /* === VARIABLES LEGACY (compatibilidad) === */
+  --color-navbar-bg: var(--color-bg-primary);
+  --color-navbar-shadow: var(--color-shadow-navbar);
+  --color-navbar-link: var(--color-text-secondary);
+  --color-navbar-link-hover: var(--color-primary);
+  --color-navbar-link-underline: var(--color-primary);
+  
+  --color-buscador-input-bg: var(--color-bg-secondary);
+  --color-buscador-btn-hover: var(--color-primary-hover);
+  --color-buscador-detalle-bg: var(--color-bg-secondary);
+  --color-buscador-cerrar-hover: var(--color-warning);
+  --color-buscador-shadow-light: var(--color-shadow-light);
+  --color-buscador-shadow-medium: var(--color-shadow-medium);
+  --color-buscador-shadow-strong: var(--color-shadow-strong);
 
-  --color-text-secondary-dark:  #bebebe;
+  --color-text-secondary-dark: var(--color-text-muted);
+  --color-text-primary-dark: var(--color-text-primary);
 }
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--color-text-link);
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: var(--color-text-link-hover);
 }
 
 body {
@@ -57,7 +99,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;   
-  background-color: #1a1a1a;
+  background-color: var(--color-bg-light);
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -70,9 +112,9 @@ button:focus-visible {
 }
 
 .login-signup-container {
-  background: var(--color-buscador-detalle-bg, #232837);
+  background: var(--color-bg-secondary);
   border-radius: 14px;
-  box-shadow: 0 4px 24px var(--color-buscador-shadow-medium, #0002);
+  box-shadow: 0 4px 24px var(--color-shadow-medium);
   padding: 2rem;
   max-width: 400px;
   margin: 3rem auto;
@@ -82,7 +124,7 @@ button:focus-visible {
 }
 
 .login-signup-container h2 {
-  color: var(--color-navbar-link-hover, #00ffe7);
+  color: var(--color-primary);
   font-size: 1.7rem;
   margin-bottom: 1rem;
   text-align: center;
@@ -92,24 +134,24 @@ button:focus-visible {
 
 .login-signup-container input {
   padding: 0.75rem 1rem;
-  border: 1px solid var(--color-buscador-shadow-light, #0004);
+  border: 1px solid var(--color-shadow-light);
   border-radius: 8px;
-  background: var(--color-buscador-input-bg, #232837);
-  color: var(--color-navbar-link, #e0e0e0);
+  background: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
   font-size: 1rem;
   transition: border-color 0.2s, box-shadow 0.2s;
   outline: none;
-  box-shadow: 0 2px 8px var(--color-buscador-shadow-light, #0004);
+  box-shadow: 0 2px 8px var(--color-shadow-light);
 }
 
 .login-signup-container input:focus {
-  border-color: var(--color-navbar-link-hover, #00ffe7);
-  box-shadow: 0 0 0 2px var(--color-navbar-link-hover, #00ffe7);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary);
 }
 
 .login-signup-container button {
-  background: var(--color-navbar-link-hover, #00ffe7);
-  color: var(--color-buscador-detalle-bg, #232837);
+  background: var(--color-primary);
+  color: var(--color-bg-secondary);
   border: none;
   border-radius: 8px;
   padding: 0.75rem 1rem;
@@ -117,16 +159,16 @@ button:focus-visible {
   font-weight: 500;
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
-  box-shadow: 0 2px 8px var(--color-buscador-shadow-light, #0004);
+  box-shadow: 0 2px 8px var(--color-shadow-light);
 }
 
 .login-signup-container button:hover {
-  background: var(--color-buscador-btn-hover, #00ccb3);
-  color: var(--color-navbar-link, #e0e0e0);
+  background: var(--color-primary-hover);
+  color: var(--color-text-secondary);
 }
 
 .login-signup-container a {
-  color: var(--color-navbar-link-hover, #00ffe7);
+  color: var(--color-primary);
   text-decoration: underline;
   cursor: pointer;
   font-weight: 500;
@@ -134,11 +176,11 @@ button:focus-visible {
 }
 
 .login-signup-container a:hover {
-  color: var(--color-buscador-btn-hover, #00ccb3);
+  color: var(--color-primary-hover);
 }
 
 .login-signup-container .error {
-  color: var(--color-buscador-cerrar-hover, #ff4b4b);
+  color: var(--color-error);
   font-size: 0.95rem;
   text-align: center;
   margin-top: 0.5rem;
