@@ -54,7 +54,12 @@ export default function App() {
           />
         )}
         
-        <DebugPanel devLoggedIn={devLoggedIn} setDevLoggedIn={setDevLoggedIn} />
+        <DebugPanel 
+          devLoggedIn={devLoggedIn} 
+          setDevLoggedIn={setDevLoggedIn}
+          setIsLoggedIn={setIsLoggedIn}
+          setUsuarioActual={setUsuarioActual}
+        />
         
         <div className="flex-1">
           <Routes>

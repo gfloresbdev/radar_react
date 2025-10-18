@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./DebugPanel.css";
 import config from '../config';
 
-const DebugPanel = ({ devLoggedIn, setDevLoggedIn }) => {
+const DebugPanel = ({ devLoggedIn, setDevLoggedIn, setIsLoggedIn, setUsuarioActual }) => {
+  const navigate = useNavigate();
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     nombre: '',
@@ -13,6 +15,34 @@ const DebugPanel = ({ devLoggedIn, setDevLoggedIn }) => {
     nombrePropietario: '',
     estado: ''
   });
+
+  const handleAdminLogin = async () => {
+    try {
+      const response = await fetch(`${config.API_BASE_URL}/api/usuarios/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+          username: "admin", 
+          password: "admin" 
+        }),
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+        setUsuarioActual(userData);
+        setIsLoggedIn(true);
+        navigate("/");
+        alert('Logged in as admin!');
+      } else {
+        alert('Error: Admin credentials not found');
+      }
+    } catch (error) {
+      console.error('Error in admin login:', error);
+      alert('Error de conexión al hacer login como admin');
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -86,6 +116,15 @@ const DebugPanel = ({ devLoggedIn, setDevLoggedIn }) => {
           onClick={() => setShowForm(!showForm)}
         >
           Crear Nueva Marca
+        </button>
+      </div>
+
+      <div className="debug-panel-item">
+        <button 
+          className="debug-admin-button"
+          onClick={handleAdminLogin}
+        >
+          Admin Login
         </button>
       </div>
 
