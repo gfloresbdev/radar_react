@@ -30,7 +30,7 @@ export default function Similitudes() {
   }
 
   return (
-    <div style={{ padding: "2rem" }}>
+    <div>
       <h2>Similitudes entre Marcas</h2>
       {similitudes.length === 0 ? (
         <p>No se encontraron similitudes.</p>
