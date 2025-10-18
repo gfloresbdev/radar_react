@@ -9,6 +9,7 @@
 .navbar-content {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   max-width: var(--max-content-width);
   margin: 0 auto;
   padding-left: 2rem;
@@ -19,6 +20,7 @@
   display: flex;
   gap: 1.5rem;
   align-items: center;
+  justify-content: flex-start;
 }
 
 .navbar-link {
@@ -28,7 +30,9 @@
   letter-spacing: 1px;
   transition: color 0.2s;
   position: relative;
-  text-align: left;
+  text-align: left !important;
+  display: block;
+  width: auto;
 }
 
 .navbar-link::after {
