@@ -41,17 +41,37 @@ export default function App() {
   return (
     <Router>
       <div className="min-h-screen flex flex-col">
-        <Navbar
-          isLoggedIn={effectiveLoggedIn}
-          onSignOut={() => setIsLoggedIn(false)}
-          devLoggedIn={devLoggedIn}
-          setDevLoggedIn={setDevLoggedIn}
-        />
+        {/* Mostrar Navbar y Footer solo cuando el usuario esté logueado */}
+        {effectiveLoggedIn && (
+          <Navbar
+            isLoggedIn={effectiveLoggedIn}
+            onSignOut={() => {
+              setIsLoggedIn(false);
+              setUsuarioActual(null);
+            }}
+            devLoggedIn={devLoggedIn}
+            setDevLoggedIn={setDevLoggedIn}
+          />
+        )}
+        
         <DebugPanel devLoggedIn={devLoggedIn} setDevLoggedIn={setDevLoggedIn} />
+        
         <div className="flex-1">
           <Routes>
-            <Route path="/" element={<Homepage />} />
-            <Route path="/about" element={<AboutUs />} />
+            {/* Página principal: LoginSignup si no está logueado, Homepage si está logueado */}
+            <Route 
+              path="/" 
+              element={
+                effectiveLoggedIn ? (
+                  <Homepage />
+                ) : (
+                  <LoginSignup setIsLoggedIn={setIsLoggedIn} setUsuarioActual={setUsuarioActual} />
+                )
+              } 
+            />
+            
+            {/* Rutas protegidas - solo accesibles cuando está logueado */}
+            <Route path="/about" element={effectiveLoggedIn ? <AboutUs /> : <Navigate to="/" />} />
             <Route
               path="/buscador"
               element={
@@ -63,13 +83,9 @@ export default function App() {
                     setUsuarioActual={setUsuarioActual}
                   />
                 ) : (
-                  <Navigate to="/login" />
+                  <Navigate to="/" />
                 )
               }
-            />
-            <Route
-              path="/login"
-              element={<LoginSignup setIsLoggedIn={setIsLoggedIn} setUsuarioActual={setUsuarioActual} />}
             />
             <Route
               path="/mis-marcas"
@@ -79,20 +95,39 @@ export default function App() {
                     usuarioActual={usuarioActual}
                   />
                 ) : (
-                  <Navigate to="/login" />
+                  <Navigate to="/" />
                 )
               }
             />
             <Route
               path="/similitudes"
-              element={effectiveLoggedIn ? <Similitudes /> : <Navigate to="/login" />}
+              element={effectiveLoggedIn ? <Similitudes /> : <Navigate to="/" />}
             />
-            <Route path="/marca/:expediente" element={<Marca />} />
+            <Route 
+              path="/marca/:expediente" 
+              element={effectiveLoggedIn ? <Marca /> : <Navigate to="/" />} 
+            />
+            
+            {/* Ruta de login (redirige a home si ya está logueado) */}
+            <Route
+              path="/login"
+              element={
+                effectiveLoggedIn ? (
+                  <Navigate to="/" />
+                ) : (
+                  <LoginSignup setIsLoggedIn={setIsLoggedIn} setUsuarioActual={setUsuarioActual} />
+                )
+              }
+            />
           </Routes>
         </div>
-        <footer className="bg-gray-100 text-center p-4">
-          © {new Date().getFullYear()} Radar de Marcas Perras
-        </footer>
+        
+        {/* Footer solo cuando está logueado */}
+        {effectiveLoggedIn && (
+          <footer className="bg-gray-100 text-center p-4">
+            © {new Date().getFullYear()} Radar de Marcas
+          </footer>
+        )}
       </div>
     </Router>
   );

@@ -117,10 +117,15 @@ button:focus-visible {
   box-shadow: 0 4px 24px var(--color-shadow-medium);
   padding: 2rem;
   max-width: 400px;
-  margin: 3rem auto;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
 }
 
 .login-signup-container h2 {
@@ -191,6 +196,35 @@ button:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+}
+
+/* Contenedor para el formulario de login como página principal */
+.login-page-container {
+  position: relative;
+  min-height: 100vh;
+  background: var(--color-bg-body);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive para el login */
+@media (max-width: 768px) {
+  .login-signup-container {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: 2rem auto;
+    width: 90%;
+    max-width: 350px;
+  }
+  
+  .login-page-container {
+    padding: 1rem;
+    align-items: flex-start;
+    padding-top: 10vh;
+  }
 }
 
 .navbar {
