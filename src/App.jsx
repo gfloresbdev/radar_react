@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 // Importa tus componentes
 import Navbar from "./components/Navbar";
 import Homepage from "./components/Homepage";
-import AboutUs from "./components/AboutUs";
 import LoginSignup from "./components/LoginSignup";
 import Buscador from "./components/Buscador";
 import MisMarcas from "./components/MisMarcas";
