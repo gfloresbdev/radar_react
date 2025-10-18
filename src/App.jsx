@@ -100,7 +100,7 @@ export default function App() {
           usuarioActual={usuarioActual}
         />
         
-        <div className="flex-1 overflow-auto">
+        <div className={`flex-1 overflow-auto ${effectiveLoggedIn ? 'with-footer' : ''}`}>
           <Routes>
             {/* Página principal: LoginSignup si no está logueado, Homepage si está logueado */}
             <Route 
