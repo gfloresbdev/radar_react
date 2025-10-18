@@ -45,20 +45,11 @@
   background: var(--color-primary-dark-hover);
 }
 
-.debug-admin-button {
-  background: var(--color-accent);
-  color: var(--color-text-primary);
-  border: none;
-  padding: 0.5em 1em;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 0.9em;
-  font-family: 'Roboto Mono', monospace;
-  transition: background-color 0.3s ease;
-}
-
-.debug-admin-button:hover {
-  background: var(--color-accent-hover);
+.debug-create-button:disabled {
+  background: var(--color-bg-secondary);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .debug-form-container {

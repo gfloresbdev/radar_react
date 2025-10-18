@@ -59,6 +59,8 @@ export default function App() {
           setDevLoggedIn={setDevLoggedIn}
           setIsLoggedIn={setIsLoggedIn}
           setUsuarioActual={setUsuarioActual}
+          isLoggedIn={effectiveLoggedIn}
+          usuarioActual={usuarioActual}
         />
         
         <div className="flex-1">

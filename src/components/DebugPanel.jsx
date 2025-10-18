@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./DebugPanel.css";
 import config from '../config';
 
-const DebugPanel = ({ devLoggedIn, setDevLoggedIn, setIsLoggedIn, setUsuarioActual }) => {
+const DebugPanel = ({ devLoggedIn, setDevLoggedIn, setIsLoggedIn, setUsuarioActual, isLoggedIn, usuarioActual }) => {
   const navigate = useNavigate();
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -34,13 +34,11 @@ const DebugPanel = ({ devLoggedIn, setDevLoggedIn, setIsLoggedIn, setUsuarioActu
         setUsuarioActual(userData);
         setIsLoggedIn(true);
         navigate("/");
-        alert('Logged in as admin!');
       } else {
-        alert('Error: Admin credentials not found');
+        console.error('Admin credentials not found');
       }
     } catch (error) {
       console.error('Error in admin login:', error);
-      alert('Error de conexión al hacer login como admin');
     }
   };
 
@@ -121,8 +119,9 @@ const DebugPanel = ({ devLoggedIn, setDevLoggedIn, setIsLoggedIn, setUsuarioActu
 
       <div className="debug-panel-item">
         <button 
-          className="debug-admin-button"
+          className="debug-create-button"
           onClick={handleAdminLogin}
+          disabled={isLoggedIn && usuarioActual?.username === 'admin'}
         >
           Admin Login
         </button>
