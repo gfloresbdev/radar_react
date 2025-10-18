@@ -302,6 +302,16 @@
   background: var(--color-success);
 }
 
+.seguir-button-table.dejar-seguir {
+  background: var(--color-error);
+  color: var(--color-text-primary);
+}
+
+.seguir-button-table.dejar-seguir:hover {
+  background: var(--color-error-hover);
+  transform: translateY(-1px);
+}
+
 .marca-detalle-overlay {
   position: fixed;
   top: 0;

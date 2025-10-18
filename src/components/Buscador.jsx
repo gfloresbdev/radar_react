@@ -5,7 +5,6 @@ import "./Buscador.css";
 
 export default function Buscador({
   agregarMarca,
-  marcasSeguidas,
   usuarioActual,
   setUsuarioActual,
 }) {
@@ -102,6 +101,49 @@ export default function Buscador({
       }
     } catch (error) {
       console.error("Error al seguir marca:", error);
+    }
+  };
+
+  const handleRemoverMarca = async (marca) => {
+    if (!usuarioActual) {
+      console.log("No hay usuario actual");
+      return;
+    }
+
+    console.log("Removiendo marca:", marca.id, "Usuario actual:", usuarioActual);
+
+    try {
+      const response = await fetch(
+        `${config.API_BASE_URL}/api/usuarios/${usuarioActual.username}/marcas`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ marcaId: marca.id }),
+        }
+      );
+
+      if (response.ok) {
+        const updatedUser = await response.json();
+        console.log("Usuario actualizado después de remover:", updatedUser);
+        setUsuarioActual(updatedUser);
+      } else {
+        const errorData = await response.json();
+        console.error("Error del servidor al remover:", errorData);
+      }
+    } catch (error) {
+      console.error("Error al dejar de seguir marca:", error);
+    }
+  };
+
+  const handleToggleSeguir = (marca) => {
+    const estaSegida = usuarioActual?.misMarcas?.includes(marca.id);
+    
+    if (estaSegida) {
+      handleRemoverMarca(marca);
+    } else {
+      handleAgregarMarca(marca);
     }
   };
 
@@ -225,14 +267,13 @@ export default function Buscador({
                     </td>
                     <td className="action-cell">
                       <button
-                        onClick={() => handleAgregarMarca(marca)}
-                        disabled={usuarioActual?.misMarcas?.includes(marca.id)}
+                        onClick={() => handleToggleSeguir(marca)}
                         className={`seguir-button-table ${
-                          usuarioActual?.misMarcas?.includes(marca.id) ? "seguido" : ""
+                          usuarioActual?.misMarcas?.includes(marca.id) ? "dejar-seguir" : ""
                         }`}
                       >
                         {usuarioActual?.misMarcas?.includes(marca.id)
-                          ? "Siguiendo"
+                          ? "Dejar de Seguir"
                           : "Seguir"}
                       </button>
                     </td>

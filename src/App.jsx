@@ -20,19 +20,11 @@ export default function App() {
   // El estado de login será el real o el de desarrollo
   const effectiveLoggedIn = isLoggedIn || devLoggedIn;
 
-  // Usuario de prueba con lista de expedientes de marcas seguidas
-  const [marcasSeguidas, setMarcasSeguidas] = useState([]);
-
-  // Agregar marca (por expediente)
+  // Agregar marca (por expediente) - usado en Buscador para agregar marcas al usuario
   const agregarMarca = (expediente) => {
-    if (!marcasSeguidas.includes(expediente)) {
-      setMarcasSeguidas([...marcasSeguidas, expediente]);
-    }
-  };
-
-  // Remover marca (por expediente)
-  const removerMarca = (expediente) => {
-    setMarcasSeguidas(marcasSeguidas.filter((exp) => exp !== expediente));
+    // Esta función se mantiene para compatibilidad con Buscador
+    // Puede ser utilizada para lógica futura de marcas favoritas
+    console.log('Marca agregada:', expediente);
   };
 
   // Estado del usuario actual (para pasar a Buscador)
@@ -85,7 +77,6 @@ export default function App() {
                 effectiveLoggedIn ? (
                   <Buscador
                     agregarMarca={agregarMarca}
-                    marcasSeguidas={marcasSeguidas}
                     usuarioActual={usuarioActual}
                     setUsuarioActual={setUsuarioActual}
                   />

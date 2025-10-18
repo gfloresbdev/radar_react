@@ -187,6 +187,37 @@ def agregar_marca_usuario(username):
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api/usuarios/<username>/marcas', methods=['DELETE'])
+def remover_marca_usuario(username):
+    try:
+        data = request.get_json()
+        marca_id = data.get('marcaId')
+        
+        print(f"Removiendo marca {marca_id} del usuario {username}")
+        
+        if not marca_id:
+            return jsonify({"error": "marcaId es requerido"}), 400
+        
+        # Remover la marca del usuario
+        user = database.remover_marca_de_usuario(username, marca_id)
+        
+        if user:
+            mis_marcas = user[3] if user[3] else []
+            print(f"Usuario actualizado - marcas restantes: {mis_marcas}")
+            
+            return jsonify({
+                "id": user[0], 
+                "username": user[1], 
+                "misMarcas": mis_marcas
+            })
+        else:
+            return jsonify({"error": "Usuario no encontrado"}), 404
+    except Exception as e:
+        print(f"Error removiendo marca de usuario: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
 @app.route('/api/similitudes', methods=['GET'])
 def obtener_similitudes():
     try:

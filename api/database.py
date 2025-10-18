@@ -145,3 +145,36 @@ def agregar_marca_a_usuario(username, marca_id):
     conn.close()
     
     return user
+
+def remover_marca_de_usuario(username, marca_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    # Obtener las marcas actuales del usuario
+    cursor.execute("SELECT mis_marcas FROM usuarios WHERE username = %s", (username,))
+    result = cursor.fetchone()
+    
+    if not result:
+        conn.close()
+        return None
+    
+    # Parsear las marcas actuales (puede ser None o una lista)
+    marcas_actuales = result[0] if result[0] else []
+    
+    # Remover la marca si está presente
+    if marca_id in marcas_actuales:
+        marcas_actuales.remove(marca_id)
+        
+        # Actualizar en la base de datos
+        cursor.execute(
+            "UPDATE usuarios SET mis_marcas = %s WHERE username = %s",
+            (json.dumps(marcas_actuales), username)
+        )
+        conn.commit()
+    
+    # Obtener el usuario actualizado
+    cursor.execute("SELECT * FROM usuarios WHERE username = %s", (username,))
+    user = cursor.fetchone()
+    conn.close()
+    
+    return user
