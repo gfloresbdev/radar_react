@@ -45,33 +45,3 @@
 .navbar-spacer {
   flex: 1;
 }
-
-.navbar-dropdown {
-  position: relative;
-}
-
-.navbar-dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: var(--color-navbar-bg);
-  border-radius: 6px;
-  box-shadow: 0 2px 8px var(--color-navbar-shadow);
-  padding: 0.5em 0;
-  min-width: 140px;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-}
-
-.navbar-dropdown-item {
-  color: var(--color-navbar-link);
-  padding: 0.5em 1.2em;
-  text-decoration: none;
-  transition: background 0.2s;
-}
-
-.navbar-dropdown-item:hover {
-  background: var(--color-navbar-link-hover);
-  color: var(--color-navbar-bg);
-}
