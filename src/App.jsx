@@ -70,7 +70,7 @@ export default function App() {
             />
             
             {/* Rutas protegidas - solo accesibles cuando está logueado */}
-            <Route path="/about" element={effectiveLoggedIn ? <AboutUs /> : <Navigate to="/" />} />
+          
             <Route
               path="/buscador"
               element={
