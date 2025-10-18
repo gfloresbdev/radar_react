@@ -101,68 +101,70 @@ export default function App() {
         />
         
         <div className={`flex-1 overflow-auto ${effectiveLoggedIn ? 'with-footer' : ''}`}>
-          <Routes>
-            {/* Página principal: LoginSignup si no está logueado, Homepage si está logueado */}
-            <Route 
-              path="/" 
-              element={
-                effectiveLoggedIn ? (
-                  <Homepage />
-                ) : (
-                  <LoginSignup setIsLoggedIn={handleSetIsLoggedIn} setUsuarioActual={handleSetUsuarioActual} />
-                )
-              } 
-            />
+          <div className="max-width-container">
+            <Routes>
+              {/* Página principal: LoginSignup si no está logueado, Homepage si está logueado */}
+              <Route 
+                path="/" 
+                element={
+                  effectiveLoggedIn ? (
+                    <Homepage />
+                  ) : (
+                    <LoginSignup setIsLoggedIn={handleSetIsLoggedIn} setUsuarioActual={handleSetUsuarioActual} />
+                  )
+                } 
+              />
+              
+              {/* Rutas protegidas - solo accesibles cuando está logueado */}
             
-            {/* Rutas protegidas - solo accesibles cuando está logueado */}
-          
-            <Route
-              path="/buscador"
-              element={
-                effectiveLoggedIn ? (
-                  <Buscador
-                    agregarMarca={agregarMarca}
-                    usuarioActual={usuarioActual}
-                    setUsuarioActual={handleSetUsuarioActual}
-                  />
-                ) : (
-                  <Navigate to="/" />
-                )
-              }
-            />
-            <Route
-              path="/mis-marcas"
-              element={
-                effectiveLoggedIn ? (
-                  <MisMarcas
-                    usuarioActual={usuarioActual}
-                  />
-                ) : (
-                  <Navigate to="/" />
-                )
-              }
-            />
-            <Route
-              path="/similitudes"
-              element={effectiveLoggedIn ? <Similitudes /> : <Navigate to="/" />}
-            />
-            <Route 
-              path="/marca/:expediente" 
-              element={effectiveLoggedIn ? <Marca /> : <Navigate to="/" />} 
-            />
-            
-            {/* Ruta de login (redirige a home si ya está logueado) */}
-            <Route
-              path="/login"
-              element={
-                effectiveLoggedIn ? (
-                  <Navigate to="/" />
-                ) : (
-                  <LoginSignup setIsLoggedIn={handleSetIsLoggedIn} setUsuarioActual={handleSetUsuarioActual} />
-                )
-              }
-            />
-          </Routes>
+              <Route
+                path="/buscador"
+                element={
+                  effectiveLoggedIn ? (
+                    <Buscador
+                      agregarMarca={agregarMarca}
+                      usuarioActual={usuarioActual}
+                      setUsuarioActual={handleSetUsuarioActual}
+                    />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/mis-marcas"
+                element={
+                  effectiveLoggedIn ? (
+                    <MisMarcas
+                      usuarioActual={usuarioActual}
+                    />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="/similitudes"
+                element={effectiveLoggedIn ? <Similitudes /> : <Navigate to="/" />}
+              />
+              <Route 
+                path="/marca/:expediente" 
+                element={effectiveLoggedIn ? <Marca /> : <Navigate to="/" />} 
+              />
+              
+              {/* Ruta de login (redirige a home si ya está logueado) */}
+              <Route
+                path="/login"
+                element={
+                  effectiveLoggedIn ? (
+                    <Navigate to="/" />
+                  ) : (
+                    <LoginSignup setIsLoggedIn={handleSetIsLoggedIn} setUsuarioActual={handleSetUsuarioActual} />
+                  )
+                }
+              />
+            </Routes>
+          </div>
         </div>
         
         {/* Footer solo cuando está logueado */}

@@ -1,11 +1,18 @@
 .navbar {
   background: var(--color-navbar-bg);
-  padding: 1rem 2rem;
-  display: flex;
-  align-items: center;
+  padding: 1rem 0;
   box-shadow: 0 2px 8px var(--color-navbar-shadow);
   font-family: 'Segoe UI', 'Roboto Mono', monospace;
   position: relative;
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 .navbar-links {
