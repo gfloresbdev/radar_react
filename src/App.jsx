@@ -77,7 +77,7 @@ export default function App() {
 
   return (
     <Router>
-      <div className="min-h-screen flex flex-col">
+      <div className="h-screen flex flex-col">
         {/* Mostrar Navbar y Footer solo cuando el usuario esté logueado */}
         {effectiveLoggedIn && (
           <Navbar
@@ -100,7 +100,7 @@ export default function App() {
           usuarioActual={usuarioActual}
         />
         
-        <div className="flex-1">
+        <div className="flex-1 overflow-auto">
           <Routes>
             {/* Página principal: LoginSignup si no está logueado, Homepage si está logueado */}
             <Route 
@@ -167,7 +167,7 @@ export default function App() {
         
         {/* Footer solo cuando está logueado */}
         {effectiveLoggedIn && (
-          <footer className="bg-gray-100 text-center p-4">
+          <footer className="app-footer">
             © {new Date().getFullYear()} Radar de Marcas
           </footer>
         )}

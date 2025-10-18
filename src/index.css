@@ -271,6 +271,21 @@ button:focus-visible {
   color: var(--color-navbar-link);
 }
 
+/* === FOOTER === */
+.app-footer {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: 1rem;
+  border-top: 1px solid var(--color-border-light);
+  font-size: 0.9rem;
+  z-index: 10;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
