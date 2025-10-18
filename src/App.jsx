@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 
@@ -15,9 +15,53 @@ import Marca from "./components/Marca";
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [devLoggedIn, setDevLoggedIn] = useState(false);
+  const [usuarioActual, setUsuarioActual] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   // El estado de login será el real o el de desarrollo
   const effectiveLoggedIn = isLoggedIn || devLoggedIn;
+
+  // Cargar estado de login desde localStorage al inicializar
+  useEffect(() => {
+    const savedLoginState = localStorage.getItem('radarApp_isLoggedIn');
+    const savedUser = localStorage.getItem('radarApp_usuarioActual');
+    
+    if (savedLoginState === 'true' && savedUser) {
+      try {
+        const userData = JSON.parse(savedUser);
+        setIsLoggedIn(true);
+        setUsuarioActual(userData);
+      } catch (error) {
+        console.error('Error parsing saved user data:', error);
+        // Limpiar datos corruptos
+        localStorage.removeItem('radarApp_isLoggedIn');
+        localStorage.removeItem('radarApp_usuarioActual');
+      }
+    }
+    setIsLoading(false);
+  }, []);
+
+  // Función personalizada para setear el estado de login y persistirlo
+  const handleSetIsLoggedIn = (loggedIn) => {
+    setIsLoggedIn(loggedIn);
+    if (loggedIn) {
+      localStorage.setItem('radarApp_isLoggedIn', 'true');
+    } else {
+      localStorage.removeItem('radarApp_isLoggedIn');
+      localStorage.removeItem('radarApp_usuarioActual');
+      setUsuarioActual(null);
+    }
+  };
+
+  // Función personalizada para setear el usuario actual y persistirlo
+  const handleSetUsuarioActual = (user) => {
+    setUsuarioActual(user);
+    if (user) {
+      localStorage.setItem('radarApp_usuarioActual', JSON.stringify(user));
+    } else {
+      localStorage.removeItem('radarApp_usuarioActual');
+    }
+  };
 
   // Agregar marca (por expediente) - usado en Buscador para agregar marcas al usuario
   const agregarMarca = (expediente) => {
@@ -26,8 +70,10 @@ export default function App() {
     console.log('Marca agregada:', expediente);
   };
 
-  // Estado del usuario actual (para pasar a Buscador)
-  const [usuarioActual, setUsuarioActual] = useState(null);
+  // Mostrar loading mientras se carga el estado
+  if (isLoading) {
+    return <div style={{ padding: '2rem', textAlign: 'center' }}>Cargando...</div>;
+  }
 
   return (
     <Router>
@@ -37,8 +83,8 @@ export default function App() {
           <Navbar
             isLoggedIn={effectiveLoggedIn}
             onSignOut={() => {
-              setIsLoggedIn(false);
-              setUsuarioActual(null);
+              handleSetIsLoggedIn(false);
+              handleSetUsuarioActual(null);
             }}
             devLoggedIn={devLoggedIn}
             setDevLoggedIn={setDevLoggedIn}
@@ -48,8 +94,8 @@ export default function App() {
         <DebugPanel 
           devLoggedIn={devLoggedIn} 
           setDevLoggedIn={setDevLoggedIn}
-          setIsLoggedIn={setIsLoggedIn}
-          setUsuarioActual={setUsuarioActual}
+          setIsLoggedIn={handleSetIsLoggedIn}
+          setUsuarioActual={handleSetUsuarioActual}
           isLoggedIn={effectiveLoggedIn}
           usuarioActual={usuarioActual}
         />
@@ -63,7 +109,7 @@ export default function App() {
                 effectiveLoggedIn ? (
                   <Homepage />
                 ) : (
-                  <LoginSignup setIsLoggedIn={setIsLoggedIn} setUsuarioActual={setUsuarioActual} />
+                  <LoginSignup setIsLoggedIn={handleSetIsLoggedIn} setUsuarioActual={handleSetUsuarioActual} />
                 )
               } 
             />
@@ -77,7 +123,7 @@ export default function App() {
                   <Buscador
                     agregarMarca={agregarMarca}
                     usuarioActual={usuarioActual}
-                    setUsuarioActual={setUsuarioActual}
+                    setUsuarioActual={handleSetUsuarioActual}
                   />
                 ) : (
                   <Navigate to="/" />
@@ -112,7 +158,7 @@ export default function App() {
                 effectiveLoggedIn ? (
                   <Navigate to="/" />
                 ) : (
-                  <LoginSignup setIsLoggedIn={setIsLoggedIn} setUsuarioActual={setUsuarioActual} />
+                  <LoginSignup setIsLoggedIn={handleSetIsLoggedIn} setUsuarioActual={handleSetUsuarioActual} />
                 )
               }
             />
