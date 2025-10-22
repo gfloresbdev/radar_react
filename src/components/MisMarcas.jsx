@@ -51,29 +51,29 @@ export default function MisMarcas({ usuarioActual }) {
       {marcas.length === 0 ? (
         <p>No tienes marcas agregadas.</p>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-200">
-            <thead className="bg-gray-50">
+        <div className="mis-marcas-table-container">
+          <table className="mis-marcas-table">
+            <thead className="mis-marcas-table-header">
               <tr>
-                <th className="text-left p-2 border-b">Nombre</th>
-                <th className="text-left p-2 border-b">Expediente</th>
-                <th className="text-left p-2 border-b">Clase</th>
-                <th className="text-left p-2 border-b">Titula</th>
-                <th className="text-left p-2 border-b">Acciones</th>
+                <th className="mis-marcas-table-th">Nombre</th>
+                <th className="mis-marcas-table-th">Expediente</th>
+                <th className="mis-marcas-table-th">Clase</th>
+                <th className="mis-marcas-table-th">Titular</th>
+                <th className="mis-marcas-table-th">Acciones</th>
               </tr>
             </thead>
             <tbody>
               {marcas.map(marca => (
-                <tr key={marca.id} className="hover:bg-gray-50">
-                  <td className="p-2 border-b">{marca.nombre}</td>
-                  <td className="p-2 border-b">
-                    <Link className="text-blue-600 hover:underline" to={`/marca/${marca.expediente}`}>
+                <tr key={marca.id} className="mis-marcas-table-row">
+                  <td className="mis-marcas-table-td">{marca.nombre}</td>
+                  <td className="mis-marcas-table-td">
+                    <Link className="mis-marcas-table-link" to={`/marca/${marca.expediente}`}>
                       {marca.expediente}
                     </Link>
                   </td>
-                  <td className="p-2 border-b">{marca.clase || "-"}</td>
-                  <td className="p-2 border-b">{marca.nombrePropietario || "-"}</td>
-                  <td className="p-2 border-b mis-marcas-actions-cell">
+                  <td className="mis-marcas-table-td">{marca.clase || "-"}</td>
+                  <td className="mis-marcas-table-td">{marca.nombrePropietario || "-"}</td>
+                  <td className="mis-marcas-table-td mis-marcas-actions-cell">
                     <div className="mis-marcas-actions-wrapper">
                       <button
                         type="button"
