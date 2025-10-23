@@ -6,7 +6,7 @@
 
 /* === TABLA === */
 .mis-marcas-table-container {
-  overflow-x: auto;
+  overflow-x: visible;
 }
 
 .mis-marcas-table {
@@ -19,7 +19,7 @@
 }
 
 .mis-marcas-table-header {
-  background: var(--color-bg-tertiary);
+  background: var(--color-primary);
 }
 
 .mis-marcas-table-th {
