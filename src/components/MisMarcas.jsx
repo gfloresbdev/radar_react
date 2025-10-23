@@ -55,21 +55,26 @@ export default function MisMarcas({ usuarioActual }) {
           <table className="mis-marcas-table">
             <thead className="mis-marcas-table-header">
               <tr>
-                <th className="mis-marcas-table-th">Nombre</th>
-                <th className="mis-marcas-table-th">Expediente</th>
+                <th className="mis-marcas-table-th">
+                  <span className="mis-marcas-header-text">
+                    <strong>Nombre</strong> / <em>Expediente</em>
+                  </span>
+                </th>
                 <th className="mis-marcas-table-th">Clase</th>
                 <th className="mis-marcas-table-th">Titular</th>
-                <th className="mis-marcas-table-th">Acciones</th>
+                <th className="mis-marcas-table-th">⋮</th>
               </tr>
             </thead>
             <tbody>
               {marcas.map(marca => (
                 <tr key={marca.id} className="mis-marcas-table-row">
-                  <td className="mis-marcas-table-td">{marca.nombre}</td>
                   <td className="mis-marcas-table-td">
-                    <Link className="mis-marcas-table-link" to={`/marca/${marca.expediente}`}>
-                      {marca.expediente}
-                    </Link>
+                    <div className="mis-marcas-name-expediente">
+                      <strong>{marca.nombre}</strong> / 
+                      <Link className="mis-marcas-table-link" to={`/marca/${marca.expediente}`}>
+                        <em>{marca.expediente}</em>
+                      </Link>
+                    </div>
                   </td>
                   <td className="mis-marcas-table-td">{marca.clase || "-"}</td>
                   <td className="mis-marcas-table-td">{marca.nombrePropietario || "-"}</td>
@@ -80,7 +85,7 @@ export default function MisMarcas({ usuarioActual }) {
                         className="mis-marcas-actions-btn"
                         onClick={() => toggleMenu(marca.id)}
                       >
-                        Acciones
+                        ⋮
                       </button>
                       {openMenuId === marca.id && (
                         <div className="mis-marcas-actions-menu">

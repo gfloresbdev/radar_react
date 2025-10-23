@@ -65,6 +65,28 @@
   text-decoration: underline;
 }
 
+/* === ESTILOS ESPECÍFICOS === */
+.mis-marcas-header-text em {
+  font-size: 0.7rem;
+  font-style: italic;
+}
+
+.mis-marcas-name-expediente {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.mis-marcas-name-expediente em {
+  font-size: 0.7rem;
+  font-style: italic;
+}
+
+.mis-marcas-name-expediente strong {
+  font-weight: bold;
+}
+
 /* === MENÚ DE ACCIONES === */
 .mis-marcas-actions-cell {
   position: relative;
@@ -77,16 +99,23 @@
 
 .mis-marcas-actions-btn {
   background: transparent;
-  border: 1px solid var(--color-border-light);
+  border: none;
   color: var(--color-text-secondary);
-  padding: 0.4rem 0.75rem;
-  border-radius: 6px;
+  padding: 0.5rem;
+  border-radius: 50%;
   cursor: pointer;
   transition: all 0.2s;
+  font-size: 1.2rem;
+  line-height: 1;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mis-marcas-actions-btn:hover {
-  border-color: var(--color-primary);
+  background: var(--color-bg-tertiary);
   color: var(--color-primary);
 }
 
