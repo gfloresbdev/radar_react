@@ -38,14 +38,23 @@
   border-top-right-radius: 12px;
 }
 
+.mis-marcas-actions-header {
+  text-align: center;
+}
+
 .mis-marcas-table-row:hover {
   background: var(--color-bg-tertiary);
 }
 
 .mis-marcas-table-td {
+  text-align: left;
   padding: 0.75rem;
   border-bottom: 1px solid var(--color-border-light);
   color: var(--color-text-secondary);
+}
+
+.mis-marcas-actions-cell {
+  text-align: center;
 }
 
 .mis-marcas-table-row:last-child .mis-marcas-table-td:first-child {

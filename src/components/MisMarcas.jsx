@@ -62,7 +62,7 @@ export default function MisMarcas({ usuarioActual }) {
                 </th>
                 <th className="mis-marcas-table-th">Clase</th>
                 <th className="mis-marcas-table-th">Titular</th>
-                <th className="mis-marcas-table-th">⋮</th>
+                <th className="mis-marcas-table-th mis-marcas-actions-header">Acciones</th>
               </tr>
             </thead>
             <tbody>
