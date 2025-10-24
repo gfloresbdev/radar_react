@@ -3,7 +3,7 @@
   max-width: var(--max-content-width);
   margin: 0 auto;
   padding: 2rem;
-  background: linear-gradient(135deg, var(--color-bg-body) 0%, #000000 100%);
+  background: linear-gradient(to bottom, var(--color-bg-body) 0%, #000000 100%);
   min-height: 100vh;
   width: 100%;
 }
