@@ -85,6 +85,112 @@
   gap: 2rem;
 }
 
+/* Nueva estructura de tabla principal */
+.marcas-seguidas-container {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.marcas-seguidas-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.marcas-seguidas-table thead th {
+  background: var(--color-primary);
+  color: white;
+  text-align: left;
+  padding: 1rem;
+  font-weight: 600;
+  border-bottom: 2px solid var(--color-border-light);
+}
+
+.marcas-seguidas-table thead th:first-child {
+  border-top-left-radius: 12px;
+}
+
+.marcas-seguidas-table thead th:last-child {
+  border-top-right-radius: 12px;
+}
+
+.marca-seguida-row {
+  border-bottom: 1px solid var(--color-border-light);
+  transition: background-color 0.2s;
+}
+
+.marca-seguida-row:hover {
+  background: var(--color-bg-tertiary);
+}
+
+.marca-seguida-row td {
+  padding: 1rem;
+  color: var(--color-text-secondary);
+  vertical-align: middle;
+}
+
+.marca-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.marca-link:hover {
+  text-decoration: underline;
+}
+
+.count-similitudes {
+  display: inline-block;
+  background: var(--color-primary);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.btn-expandir {
+  background: transparent;
+  border: 1px solid var(--color-border-light);
+  color: var(--color-text-secondary);
+  padding: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  font-size: 1rem;
+}
+
+.btn-expandir:hover {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.btn-expandir.expanded {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.similitudes-expanded-row {
+  background: var(--color-bg-secondary);
+}
+
+.similitudes-expanded-row td {
+  padding: 0;
+}
+
+.similitudes-details {
+  padding: 1rem;
+  border-top: 2px solid var(--color-primary);
+}
+
 .similitudes-grupo {
   background: white;
   border-radius: 12px;
@@ -106,16 +212,6 @@
   gap: 0.5rem;
 }
 
-.marca-link {
-  color: var(--color-primary);
-  text-decoration: none;
-  font-weight: 700;
-}
-
-.marca-link:hover {
-  text-decoration: underline;
-}
-
 .expediente-info {
   font-size: 0.9rem;
   color: var(--color-text-secondary);
@@ -129,16 +225,6 @@
   margin-bottom: 0.5rem;
 }
 
-.count-similitudes {
-  display: inline-block;
-  background: var(--color-primary);
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-
 .similitudes-table-container {
   overflow-x: auto;
 }
@@ -146,23 +232,27 @@
 .similitudes-table {
   width: 100%;
   border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 .similitudes-table th {
   background: var(--color-primary);
   color: white;
   text-align: left;
-  padding: 1rem;
+  padding: 0.75rem;
   font-weight: 600;
-  border-bottom: 2px solid var(--color-border-light);
+  font-size: 0.9rem;
 }
 
 .similitudes-table th:first-child {
-  border-top-left-radius: 0;
+  border-top-left-radius: 8px;
 }
 
 .similitudes-table th:last-child {
-  border-top-right-radius: 0;
+  border-top-right-radius: 8px;
 }
 
 .similitud-row {
@@ -175,8 +265,9 @@
 }
 
 .similitudes-table td {
-  padding: 1rem;
+  padding: 0.75rem;
   color: var(--color-text-secondary);
+  font-size: 0.9rem;
 }
 
 .marca-similar-link {
@@ -255,18 +346,53 @@
     justify-content: space-between;
   }
   
-  .marca-seguida-header h3 {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.25rem;
+  .marcas-seguidas-table {
+    font-size: 0.85rem;
+  }
+  
+  .marcas-seguidas-table thead th,
+  .marca-seguida-row td {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .marcas-seguidas-table thead th:nth-child(2),
+  .marca-seguida-row td:nth-child(2) {
+    display: none; /* Ocultar expediente en móvil */
+  }
+  
+  .marcas-seguidas-table thead th:nth-child(3),
+  .marca-seguida-row td:nth-child(3) {
+    display: none; /* Ocultar clase en móvil */
+  }
+  
+  .similitudes-details {
+    padding: 0.5rem;
   }
   
   .similitudes-table {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
   
   .similitudes-table th,
   .similitudes-table td {
-    padding: 0.75rem 0.5rem;
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .similitudes-table th:nth-child(3),
+  .similitudes-table td:nth-child(3),
+  .similitudes-table th:nth-child(4),
+  .similitudes-table td:nth-child(4) {
+    display: none; /* Ocultar clase y propietario en móvil */
+  }
+  
+  .count-similitudes {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
+  }
+  
+  .btn-expandir {
+    width: 35px;
+    height: 35px;
+    font-size: 0.9rem;
   }
 }

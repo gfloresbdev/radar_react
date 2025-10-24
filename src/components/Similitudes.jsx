@@ -8,6 +8,7 @@ export default function Similitudes() {
   const [loading, setLoading] = useState(true);
   const [detectandoSimilitudes, setDetectandoSimilitudes] = useState(false);
   const [porcentajeMinimo, setPorcentajeMinimo] = useState(20);
+  const [marcasExpandidas, setMarcasExpandidas] = useState(new Set());
 
   const usuarioActual = JSON.parse(localStorage.getItem('radarApp_usuarioActual') || '{}');
 
@@ -76,6 +77,16 @@ export default function Similitudes() {
     }
   };
 
+  const toggleMarcaExpanded = (marcaId) => {
+    const newExpanded = new Set(marcasExpandidas);
+    if (newExpanded.has(marcaId)) {
+      newExpanded.delete(marcaId);
+    } else {
+      newExpanded.add(marcaId);
+    }
+    setMarcasExpandidas(newExpanded);
+  };
+
   const getSimilitudColor = (porcentaje) => {
     if (porcentaje >= 80) return 'similitud-alta';
     if (porcentaje >= 60) return 'similitud-media-alta';
@@ -138,67 +149,99 @@ export default function Similitudes() {
           <p>Intenta con un porcentaje menor o detecta nuevas similitudes.</p>
         </div>
       ) : (
-        <div className="similitudes-grupos">
-          {similitudesAgrupadas.map((grupo, index) => (
-            <div key={index} className="similitudes-grupo">
-              <div className="marca-seguida-header">
-                <h3>
-                  <Link to={`/marca/${grupo.marca_seguida.expediente}`} className="marca-link">
-                    {grupo.marca_seguida.nombre}
-                  </Link>
-                  <span className="expediente-info">({grupo.marca_seguida.expediente})</span>
-                </h3>
-                <span className="clase-info">Clase: {grupo.marca_seguida.clase || 'N/A'}</span>
-                <span className="count-similitudes">{grupo.similitudes.length} similitudes encontradas</span>
-              </div>
-
-              <div className="similitudes-table-container">
-                <table className="similitudes-table">
-                  <thead>
-                    <tr>
-                      <th>Marca Similar</th>
-                      <th>Expediente</th>
-                      <th>Clase</th>
-                      <th>Propietario</th>
-                      <th>% Similitud</th>
-                      <th>Acciones</th>
+        <div className="marcas-seguidas-container">
+          <table className="marcas-seguidas-table">
+            <thead>
+              <tr>
+                <th>Marca Seguida</th>
+                <th>Expediente</th>
+                <th>Clase</th>
+                <th>Similitudes</th>
+                <th>Expandir</th>
+              </tr>
+            </thead>
+            <tbody>
+              {similitudesAgrupadas.map((grupo) => (
+                <React.Fragment key={grupo.marca_seguida.id}>
+                  <tr className="marca-seguida-row">
+                    <td>
+                      <Link to={`/marca/${grupo.marca_seguida.expediente}`} className="marca-link">
+                        {grupo.marca_seguida.nombre}
+                      </Link>
+                    </td>
+                    <td>{grupo.marca_seguida.expediente}</td>
+                    <td>{grupo.marca_seguida.clase || '-'}</td>
+                    <td>
+                      <span className="count-similitudes">
+                        {grupo.similitudes.length} similitudes
+                      </span>
+                    </td>
+                    <td>
+                      <button 
+                        className={`btn-expandir ${marcasExpandidas.has(grupo.marca_seguida.id) ? 'expanded' : ''}`}
+                        onClick={() => toggleMarcaExpanded(grupo.marca_seguida.id)}
+                        title={marcasExpandidas.has(grupo.marca_seguida.id) ? 'Colapsar' : 'Expandir'}
+                      >
+                        {marcasExpandidas.has(grupo.marca_seguida.id) ? '▼' : '▶'}
+                      </button>
+                    </td>
+                  </tr>
+                  
+                  {marcasExpandidas.has(grupo.marca_seguida.id) && (
+                    <tr className="similitudes-expanded-row">
+                      <td colSpan="5">
+                        <div className="similitudes-details">
+                          <table className="similitudes-table">
+                            <thead>
+                              <tr>
+                                <th>Marca Similar</th>
+                                <th>Expediente</th>
+                                <th>Clase</th>
+                                <th>Propietario</th>
+                                <th>% Similitud</th>
+                                <th>Acciones</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {grupo.similitudes.map((similitud) => (
+                                <tr key={similitud.id} className="similitud-row">
+                                  <td>
+                                    <Link 
+                                      to={`/marca/${similitud.marca_similar.expediente}`} 
+                                      className="marca-similar-link"
+                                    >
+                                      {similitud.marca_similar.nombre}
+                                    </Link>
+                                  </td>
+                                  <td>{similitud.marca_similar.expediente}</td>
+                                  <td>{similitud.marca_similar.clase || '-'}</td>
+                                  <td>{similitud.marca_similar.propietario || '-'}</td>
+                                  <td>
+                                    <span className={`porcentaje-badge ${getSimilitudColor(similitud.porcentaje)}`}>
+                                      {similitud.porcentaje}%
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <button 
+                                      className="btn-eliminar"
+                                      onClick={() => eliminarSimilitud(similitud.id)}
+                                      title="Ocultar esta similitud"
+                                    >
+                                      ✕
+                                    </button>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {grupo.similitudes.map((similitud) => (
-                      <tr key={similitud.id} className="similitud-row">
-                        <td>
-                          <Link 
-                            to={`/marca/${similitud.marca_similar.expediente}`} 
-                            className="marca-similar-link"
-                          >
-                            {similitud.marca_similar.nombre}
-                          </Link>
-                        </td>
-                        <td>{similitud.marca_similar.expediente}</td>
-                        <td>{similitud.marca_similar.clase || '-'}</td>
-                        <td>{similitud.marca_similar.propietario || '-'}</td>
-                        <td>
-                          <span className={`porcentaje-badge ${getSimilitudColor(similitud.porcentaje)}`}>
-                            {similitud.porcentaje}%
-                          </span>
-                        </td>
-                        <td>
-                          <button 
-                            className="btn-eliminar"
-                            onClick={() => eliminarSimilitud(similitud.id)}
-                            title="Ocultar esta similitud"
-                          >
-                            ✕
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          ))}
+                  )}
+                </React.Fragment>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>
