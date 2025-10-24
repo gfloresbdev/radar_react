@@ -165,12 +165,8 @@
     display: flex;
   }
   
-  .desktop-menu {
-    display: none;
-  }
-  
-  .navbar-links {
-    display: none;
+  .navbar-links.desktop-menu {
+    display: none !important;
   }
   
   .mobile-menu {
