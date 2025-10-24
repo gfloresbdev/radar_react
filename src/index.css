@@ -184,12 +184,12 @@ button:focus-visible {
 .radar-subtitle {
   display: block;
   font-size: 1rem;
-  font-weight: 300;
+  font-weight: 600;
   color: var(--color-text-secondary);
-  letter-spacing: 0.2rem;
+  letter-spacing: 0.3rem;
   margin-top: 0.25rem;
   text-transform: lowercase;
-  font-style: italic;
+  font-style: normal;
 }
 
 .login-signup-container h2 {
@@ -302,7 +302,7 @@ button:focus-visible {
   
   .radar-subtitle {
     font-size: 0.9rem;
-    letter-spacing: 0.15rem;
+    letter-spacing: 0.2rem;
   }
 }
 
