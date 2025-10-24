@@ -60,7 +60,7 @@ export default function LoginSignup({ setIsLoggedIn, setUsuarioActual }) {
   };
 
   return (
-    <div className="login-signup-container">
+    <div className="login-page-wrapper">
       <div className="radar-logo-section">
         <img src="/RadarIcon.svg" alt="Radar Logo" className="radar-logo-icon" />
         <h1 className="radar-brand-title">
@@ -68,7 +68,8 @@ export default function LoginSignup({ setIsLoggedIn, setUsuarioActual }) {
           <span className="radar-subtitle">de Marcas</span>
         </h1>
       </div>
-      <h2>{isLogin ? "Iniciar Sesión" : "Registrarse"}</h2>
+      <div className="login-signup-container">
+        <h2>{isLogin ? "Iniciar Sesión" : "Registrarse"}</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -104,6 +105,7 @@ export default function LoginSignup({ setIsLoggedIn, setUsuarioActual }) {
           {isLogin ? "Regístrate" : "Inicia sesión"}
         </a>
       </p>
+      </div>
     </div>
   );
 }
