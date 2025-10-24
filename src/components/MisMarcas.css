@@ -158,3 +158,55 @@
   background: var(--color-primary);
   color: var(--color-bg-primary);
 }
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 768px) {
+  /* Ocultar columnas "Clase" y "Titular" en móvil */
+  .mis-marcas-table-th:nth-child(2),
+  .mis-marcas-table-td:nth-child(2) {
+    display: none;
+  }
+  
+  .mis-marcas-table-th:nth-child(3),
+  .mis-marcas-table-td:nth-child(3) {
+    display: none;
+  }
+  
+  /* Ajustar el ancho de las columnas restantes */
+  .mis-marcas-table-th:first-child,
+  .mis-marcas-table-td:first-child {
+    width: 70%;
+  }
+  
+  .mis-marcas-table-th:last-child,
+  .mis-marcas-table-td:last-child {
+    width: 30%;
+  }
+  
+  /* Ajustar padding en móvil */
+  .mis-marcas-table-th,
+  .mis-marcas-table-td {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  /* Ajustar el contenedor de nombre/expediente */
+  .mis-marcas-name-expediente {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  /* Hacer el botón de acciones más grande en móvil */
+  .mis-marcas-actions-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+  
+  /* Ajustar el menú de acciones */
+  .mis-marcas-actions-menu {
+    min-width: 140px;
+    right: 0;
+    left: auto;
+  }
+}
