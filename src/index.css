@@ -188,7 +188,8 @@ button:focus-visible {
   color: var(--color-text-secondary);
   letter-spacing: 0.3rem;
   margin-top: 0.25rem;
-  text-transform: lowercase;
+  text-transform: uppercase;
+  font-variant: small-caps;
   font-style: normal;
 }
 
