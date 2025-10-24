@@ -202,7 +202,8 @@ button:focus-visible {
 .login-signup-container h2 {
   color: var(--color-primary);
   font-size: 1.7rem;
-  margin-bottom: 1rem;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
   text-align: center;
   font-weight: 600;
   letter-spacing: 1px;
