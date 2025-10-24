@@ -1,0 +1,272 @@
+/* Similitudes.css */
+.similitudes-container {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.similitudes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.similitudes-header h2 {
+  color: var(--color-primary);
+  margin: 0;
+}
+
+.similitudes-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filtro-porcentaje {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filtro-porcentaje label {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.filtro-porcentaje select {
+  padding: 0.5rem;
+  border: 1px solid var(--color-border-light);
+  border-radius: 4px;
+  background: white;
+  color: var(--color-text-primary);
+}
+
+.btn-detectar {
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-detectar:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+}
+
+.btn-detectar:disabled {
+  background: var(--color-border-light);
+  cursor: not-allowed;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: var(--color-text-secondary);
+}
+
+.no-similitudes {
+  text-align: center;
+  padding: 3rem;
+  background: var(--color-bg-secondary);
+  border-radius: 12px;
+  color: var(--color-text-secondary);
+}
+
+.similitudes-grupos {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.similitudes-grupo {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.marca-seguida-header {
+  background: var(--color-bg-secondary);
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.marca-seguida-header h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.marca-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.marca-link:hover {
+  text-decoration: underline;
+}
+
+.expediente-info {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  font-weight: normal;
+}
+
+.clase-info {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.count-similitudes {
+  display: inline-block;
+  background: var(--color-primary);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.similitudes-table-container {
+  overflow-x: auto;
+}
+
+.similitudes-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.similitudes-table th {
+  background: var(--color-primary);
+  color: white;
+  text-align: left;
+  padding: 1rem;
+  font-weight: 600;
+  border-bottom: 2px solid var(--color-border-light);
+}
+
+.similitudes-table th:first-child {
+  border-top-left-radius: 0;
+}
+
+.similitudes-table th:last-child {
+  border-top-right-radius: 0;
+}
+
+.similitud-row {
+  border-bottom: 1px solid var(--color-border-light);
+  transition: background-color 0.2s;
+}
+
+.similitud-row:hover {
+  background: var(--color-bg-tertiary);
+}
+
+.similitudes-table td {
+  padding: 1rem;
+  color: var(--color-text-secondary);
+}
+
+.marca-similar-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.marca-similar-link:hover {
+  text-decoration: underline;
+}
+
+.porcentaje-badge {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-align: center;
+  min-width: 50px;
+}
+
+.similitud-alta {
+  background: #dc3545;
+  color: white;
+}
+
+.similitud-media-alta {
+  background: #fd7e14;
+  color: white;
+}
+
+.similitud-media {
+  background: #ffc107;
+  color: #000;
+}
+
+.similitud-baja {
+  background: #28a745;
+  color: white;
+}
+
+.btn-eliminar {
+  background: transparent;
+  border: 1px solid var(--color-border-light);
+  color: var(--color-text-secondary);
+  padding: 0.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.btn-eliminar:hover {
+  background: #dc3545;
+  color: white;
+  border-color: #dc3545;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .similitudes-container {
+    padding: 1rem;
+  }
+  
+  .similitudes-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .similitudes-controls {
+    justify-content: space-between;
+  }
+  
+  .marca-seguida-header h3 {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  
+  .similitudes-table {
+    font-size: 0.9rem;
+  }
+  
+  .similitudes-table th,
+  .similitudes-table td {
+    padding: 0.75rem 0.5rem;
+  }
+}

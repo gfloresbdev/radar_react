@@ -55,6 +55,20 @@ def init_tables():
         )
     ''')
     
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS similitudes_marcas (
+            id SERIAL PRIMARY KEY,
+            marca_seguida_id INTEGER NOT NULL,
+            marca_similar_id INTEGER NOT NULL,
+            porcentaje_similitud DECIMAL(5,2) NOT NULL,
+            fecha_deteccion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            activa BOOLEAN DEFAULT TRUE,
+            FOREIGN KEY (marca_seguida_id) REFERENCES marcas(id),
+            FOREIGN KEY (marca_similar_id) REFERENCES marcas(id),
+            UNIQUE(marca_seguida_id, marca_similar_id)
+        )
+    ''')
+    
     conn.commit()
     conn.close()
 
@@ -178,3 +192,178 @@ def remover_marca_de_usuario(username, marca_id):
     conn.close()
     
     return user
+
+# ===============================
+# FUNCIONES PARA SIMILITUDES
+# ===============================
+
+def crear_similitud(marca_seguida_id, marca_similar_id, porcentaje_similitud):
+    """Crear o actualizar una similitud entre dos marcas"""
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute('''
+            INSERT INTO similitudes_marcas (marca_seguida_id, marca_similar_id, porcentaje_similitud)
+            VALUES (%s, %s, %s)
+            ON CONFLICT (marca_seguida_id, marca_similar_id)
+            DO UPDATE SET 
+                porcentaje_similitud = %s,
+                fecha_deteccion = CURRENT_TIMESTAMP,
+                activa = TRUE
+            RETURNING id
+        ''', (marca_seguida_id, marca_similar_id, porcentaje_similitud, porcentaje_similitud))
+        
+        similitud_id = cursor.fetchone()[0]
+        conn.commit()
+        return similitud_id
+        
+    except Exception as e:
+        conn.rollback()
+        raise e
+    finally:
+        conn.close()
+
+def obtener_similitudes_usuario(username, porcentaje_minimo=0.0):
+    """Obtener todas las similitudes de las marcas que sigue un usuario"""
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute('''
+            SELECT 
+                ms.id as similitud_id,
+                ms.porcentaje_similitud,
+                ms.fecha_deteccion,
+                m1.id as marca_seguida_id,
+                m1.nombre as marca_seguida_nombre,
+                m1.expediente as marca_seguida_expediente,
+                m1.clase as marca_seguida_clase,
+                m2.id as marca_similar_id,
+                m2.nombre as marca_similar_nombre,
+                m2.expediente as marca_similar_expediente,
+                m2.clase as marca_similar_clase,
+                m2.nombre_propietario as marca_similar_propietario
+            FROM similitudes_marcas ms
+            INNER JOIN marcas m1 ON ms.marca_seguida_id = m1.id
+            INNER JOIN marcas m2 ON ms.marca_similar_id = m2.id
+            INNER JOIN usuarios u ON u.username = %s
+            WHERE ms.activa = TRUE
+                AND ms.porcentaje_similitud >= %s
+                AND m1.id = ANY(
+                    SELECT jsonb_array_elements_text(u.mis_marcas)::integer
+                )
+            ORDER BY m1.nombre, ms.porcentaje_similitud DESC
+        ''', (username, porcentaje_minimo))
+        
+        rows = cursor.fetchall()
+        
+        # Agrupar resultados por marca seguida
+        similitudes_agrupadas = {}
+        
+        for row in rows:
+            marca_seguida_id = row[3]
+            
+            if marca_seguida_id not in similitudes_agrupadas:
+                similitudes_agrupadas[marca_seguida_id] = {
+                    "marca_seguida": {
+                        "id": row[3],
+                        "nombre": row[4],
+                        "expediente": row[5],
+                        "clase": row[6] or ""
+                    },
+                    "similitudes": []
+                }
+            
+            similitudes_agrupadas[marca_seguida_id]["similitudes"].append({
+                "id": row[0],
+                "porcentaje": float(row[1]),
+                "fecha_deteccion": str(row[2]),
+                "marca_similar": {
+                    "id": row[7],
+                    "nombre": row[8],
+                    "expediente": row[9],
+                    "clase": row[10] or "",
+                    "propietario": row[11] or ""
+                }
+            })
+        
+        return list(similitudes_agrupadas.values())
+        
+    except Exception as e:
+        raise e
+    finally:
+        conn.close()
+
+def desactivar_similitud(similitud_id):
+    """Desactivar una similitud específica"""
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute(
+            "UPDATE similitudes_marcas SET activa = FALSE WHERE id = %s",
+            (similitud_id,)
+        )
+        conn.commit()
+        return cursor.rowcount > 0
+        
+    except Exception as e:
+        conn.rollback()
+        raise e
+    finally:
+        conn.close()
+
+def calcular_similitud_marcas(marca1_id, marca2_id):
+    """Calcular similitud básica entre dos marcas basada en nombre y clase"""
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute("SELECT nombre, clase, descripcion FROM marcas WHERE id IN (%s, %s)", (marca1_id, marca2_id))
+        marcas = cursor.fetchall()
+        
+        if len(marcas) != 2:
+            return 0.0
+            
+        marca1 = marcas[0]
+        marca2 = marcas[1]
+        
+        # Algoritmo simple de similitud
+        similitud_total = 0.0
+        peso_nombre = 0.6
+        peso_clase = 0.3
+        peso_descripcion = 0.1
+        
+        # Similitud de nombres (usando longitud de subcadena común)
+        nombre1 = marca1[0].lower() if marca1[0] else ""
+        nombre2 = marca2[0].lower() if marca2[0] else ""
+        
+        if nombre1 and nombre2:
+            similitud_nombre = len(set(nombre1.split()) & set(nombre2.split())) / max(len(nombre1.split()), len(nombre2.split()))
+            similitud_total += similitud_nombre * peso_nombre
+        
+        # Similitud de clase (exacta)
+        clase1 = marca1[1] if marca1[1] else ""
+        clase2 = marca2[1] if marca2[1] else ""
+        
+        if clase1 == clase2 and clase1:
+            similitud_total += peso_clase
+        
+        # Similitud de descripción (palabras en común)
+        desc1 = marca1[2].lower() if marca1[2] else ""
+        desc2 = marca2[2].lower() if marca2[2] else ""
+        
+        if desc1 and desc2:
+            palabras1 = set(desc1.split())
+            palabras2 = set(desc2.split())
+            if palabras1 and palabras2:
+                similitud_desc = len(palabras1 & palabras2) / len(palabras1 | palabras2)
+                similitud_total += similitud_desc * peso_descripcion
+        
+        return round(similitud_total * 100, 2)
+        
+    except Exception as e:
+        raise e
+    finally:
+        conn.close()

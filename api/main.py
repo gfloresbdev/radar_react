@@ -221,10 +221,82 @@ def remover_marca_usuario(username):
 @app.route('/api/similitudes', methods=['GET'])
 def obtener_similitudes():
     try:
-        # Placeholder para similitudes - implementar lógica más tarde
-        return jsonify([])
+        # Obtener parámetros opcionales
+        username = request.args.get('username')
+        porcentaje_minimo = float(request.args.get('porcentaje_minimo', 0.0))
+        
+        if not username:
+            return jsonify({"error": "Username es requerido"}), 400
+        
+        # Obtener similitudes del usuario
+        similitudes = database.obtener_similitudes_usuario(username, porcentaje_minimo)
+        return jsonify(similitudes)
+        
     except Exception as e:
         print(f"Error obteniendo similitudes: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/similitudes/detectar', methods=['POST'])
+def detectar_similitudes():
+    """Detectar y guardar similitudes para las marcas seguidas por un usuario"""
+    try:
+        data = request.get_json()
+        username = data.get('username')
+        
+        if not username:
+            return jsonify({"error": "Username es requerido"}), 400
+        
+        # Obtener usuario y sus marcas seguidas
+        user = database.get_user(username)
+        if not user:
+            return jsonify({"error": "Usuario no encontrado"}), 404
+        
+        marcas_seguidas = user[3] if user[3] else []  # mis_marcas está en la posición 3
+        
+        if not marcas_seguidas:
+            return jsonify({"message": "Usuario no tiene marcas seguidas"}), 200
+        
+        # Obtener todas las marcas para comparar
+        todas_las_marcas = database.list_marcas()
+        
+        similitudes_detectadas = 0
+        
+        for marca_seguida_id in marcas_seguidas:
+            for marca in todas_las_marcas:
+                # No comparar una marca consigo misma
+                if marca['id'] == marca_seguida_id:
+                    continue
+                
+                # Calcular similitud
+                porcentaje = database.calcular_similitud_marcas(marca_seguida_id, marca['id'])
+                
+                # Solo guardar si la similitud es significativa (>= 20%)
+                if porcentaje >= 20.0:
+                    database.crear_similitud(marca_seguida_id, marca['id'], porcentaje)
+                    similitudes_detectadas += 1
+        
+        return jsonify({
+            "message": f"Detección completada. {similitudes_detectadas} similitudes encontradas.",
+            "similitudes_detectadas": similitudes_detectadas
+        })
+        
+    except Exception as e:
+        print(f"Error detectando similitudes: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/similitudes/<int:similitud_id>', methods=['DELETE'])
+def eliminar_similitud(similitud_id):
+    """Desactivar una similitud específica"""
+    try:
+        success = database.desactivar_similitud(similitud_id)
+        
+        if success:
+            return jsonify({"message": "Similitud desactivada correctamente"})
+        else:
+            return jsonify({"error": "Similitud no encontrada"}), 404
+            
+    except Exception as e:
+        print(f"Error eliminando similitud: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 # Para Vercel con Flask
