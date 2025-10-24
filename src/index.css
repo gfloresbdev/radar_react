@@ -140,6 +140,58 @@ button:focus-visible {
   width: 90%;
 }
 
+.radar-logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.radar-logo-icon {
+  width: 80px;
+  height: 80px;
+  filter: brightness(0) saturate(100%) invert(70%) sepia(91%) saturate(2288%) hue-rotate(167deg) brightness(103%) contrast(101%);
+  animation: radar-pulse 2s ease-in-out infinite;
+}
+
+@keyframes radar-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.radar-brand-title {
+  text-align: center;
+  margin: 0;
+  line-height: 1;
+}
+
+.radar-text {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--color-primary);
+  letter-spacing: 0.3rem;
+  text-transform: uppercase;
+  background: linear-gradient(45deg, var(--color-primary), #ffffff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 20px rgba(0, 255, 231, 0.3);
+}
+
+.radar-subtitle {
+  display: block;
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.2rem;
+  margin-top: 0.25rem;
+  text-transform: lowercase;
+  font-style: italic;
+}
+
 .login-signup-container h2 {
   color: var(--color-primary);
   font-size: 1.7rem;
@@ -236,6 +288,21 @@ button:focus-visible {
     padding: 1rem;
     align-items: flex-start;
     padding-top: 10vh;
+  }
+  
+  .radar-logo-icon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .radar-text {
+    font-size: 2rem;
+    letter-spacing: 0.2rem;
+  }
+  
+  .radar-subtitle {
+    font-size: 0.9rem;
+    letter-spacing: 0.15rem;
   }
 }
 

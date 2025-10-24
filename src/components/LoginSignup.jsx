@@ -61,6 +61,13 @@ export default function LoginSignup({ setIsLoggedIn, setUsuarioActual }) {
 
   return (
     <div className="login-signup-container">
+      <div className="radar-logo-section">
+        <img src="/RadarIcon.svg" alt="Radar Logo" className="radar-logo-icon" />
+        <h1 className="radar-brand-title">
+          <span className="radar-text">RADAR</span>
+          <span className="radar-subtitle">de Marcas</span>
+        </h1>
+      </div>
       <h2>{isLogin ? "Iniciar Sesión" : "Registrarse"}</h2>
       <form onSubmit={handleSubmit}>
         <input
