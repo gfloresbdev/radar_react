@@ -3,6 +3,8 @@
   max-width: var(--max-content-width);
   margin: 0 auto;
   padding: 2rem;
+  background: var(--color-bg-body);
+  min-height: 100vh;
 }
 
 .similitudes-header {
@@ -41,7 +43,7 @@
   padding: 0.5rem;
   border: 1px solid var(--color-border-light);
   border-radius: 4px;
-  background: white;
+  background: var(--color-bg-secondary);
   color: var(--color-text-primary);
 }
 
@@ -68,7 +70,7 @@
 .loading {
   text-align: center;
   padding: 2rem;
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
 }
 
 .no-similitudes {
@@ -76,7 +78,7 @@
   padding: 3rem;
   background: var(--color-bg-secondary);
   border-radius: 12px;
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
 }
 
 .similitudes-grupos {
@@ -87,10 +89,10 @@
 
 /* Nueva estructura de tabla principal */
 .marcas-seguidas-container {
-  background: white;
+  background: var(--color-bg-secondary);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .marcas-seguidas-table {
@@ -118,6 +120,7 @@
 .marca-seguida-row {
   border-bottom: 1px solid var(--color-border-light);
   transition: background-color 0.2s;
+  background: var(--color-bg-secondary);
 }
 
 .marca-seguida-row:hover {
@@ -126,7 +129,7 @@
 
 .marca-seguida-row td {
   padding: 1rem;
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
   vertical-align: middle;
 }
 
@@ -151,9 +154,9 @@
 }
 
 .btn-expandir {
-  background: transparent;
+  background: var(--color-bg-tertiary);
   border: 1px solid var(--color-border-light);
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
   padding: 0.5rem;
   border-radius: 6px;
   cursor: pointer;
@@ -179,7 +182,7 @@
 }
 
 .similitudes-expanded-row {
-  background: var(--color-bg-secondary);
+  background: var(--color-bg-primary);
 }
 
 .similitudes-expanded-row td {
@@ -232,10 +235,10 @@
 .similitudes-table {
   width: 100%;
   border-collapse: collapse;
-  background: white;
+  background: var(--color-bg-secondary);
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
 .similitudes-table th {
@@ -258,6 +261,7 @@
 .similitud-row {
   border-bottom: 1px solid var(--color-border-light);
   transition: background-color 0.2s;
+  background: var(--color-bg-secondary);
 }
 
 .similitud-row:hover {
@@ -266,7 +270,7 @@
 
 .similitudes-table td {
   padding: 0.75rem;
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
   font-size: 0.9rem;
 }
 
@@ -311,9 +315,9 @@
 }
 
 .btn-eliminar {
-  background: transparent;
+  background: var(--color-bg-tertiary);
   border: 1px solid var(--color-border-light);
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
   padding: 0.5rem;
   border-radius: 50%;
   cursor: pointer;
