@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: var(--color-text-primary);
-  background-color: var(--color-bg-body);
+  background: linear-gradient(135deg, var(--color-bg-body) 0%, #000000 100%);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -97,6 +97,8 @@ html, body {
 body {
   min-width: 320px;
   min-height: 100vh;
+  background: linear-gradient(135deg, var(--color-bg-body) 0%, #000000 100%);
+  background-attachment: fixed;
 }
 
 h1 {
@@ -274,7 +276,7 @@ button:focus-visible {
 .login-page-container {
   position: relative;
   min-height: 100vh;
-  background: var(--color-bg-body);
+  background: linear-gradient(135deg, var(--color-bg-body) 0%, #000000 100%);
   display: flex;
   align-items: center;
   justify-content: center;
